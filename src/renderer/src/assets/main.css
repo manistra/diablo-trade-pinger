@@ -22,6 +22,7 @@ body {
   user-select: none;
   background-image: url('../assets/background.png');
   background-size: cover;
+  background-position: center;
   color: #f28303;
 }
 
