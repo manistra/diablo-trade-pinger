@@ -17,10 +17,19 @@ const getLevelRequiredValue = (value) => {
   else return '80'
 }
 
-export const bumpDiabloTradeAllItems = async ({ email, password, listingPageCount, logInfo }) => {
+export const bumpDiabloTradeAllItems = async ({
+  email,
+  password,
+  listingPageCount,
+  logInfo,
+  executablePath
+}) => {
   logInfo('DIABLO TRADE BUMPER STARTED')
 
-  const browser = await puppeteer.launch({ headless: false })
+  const browser = await puppeteer.launch({
+    ...(!!executablePath && { executablePath: executablePath }),
+    headless: false
+  })
   const page = await browser.newPage()
   await page.goto('https://diablo.trade')
   await page.evaluate(() => {

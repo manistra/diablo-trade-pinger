@@ -4,14 +4,38 @@ import logo from './assets/logo.png'
 import button from './assets/button.png'
 
 function App() {
+  const passwordLocalStorage = JSON.parse(localStorage.getItem('password'))
+  const emailLocalStorage = JSON.parse(localStorage.getItem('email'))
+  const pageCountLocalStorage = JSON.parse(localStorage.getItem('pageCount'))
+  const executablePathLocalStorage = JSON.parse(localStorage.getItem('executablePath'))
+
+  const [email, setEmail] = useState(emailLocalStorage)
+  const [password, setPassword] = useState(passwordLocalStorage)
+  const [executablePath, setExecutablePath] = useState(executablePathLocalStorage)
+  const [pageCount, setPageCount] = useState(pageCountLocalStorage)
+
   const [isBumping, setIsBumping] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [pageCount, setPageCount] = useState(1)
   const [info, setInfo] = useState('')
 
   const logInfo = (message) => {
     setInfo(message)
+  }
+
+  const handleSetEmail = (value) => {
+    setEmail(value)
+    localStorage.setItem('email', JSON.stringify(value))
+  }
+  const handleSetPassword = (value) => {
+    setPassword(value)
+    localStorage.setItem('password', JSON.stringify(value))
+  }
+  const handleSetPageCount = (value) => {
+    setPageCount(value)
+    localStorage.setItem('pageCount', JSON.stringify(value))
+  }
+  const handleSetExecutablePath = (value) => {
+    setExecutablePath(value)
+    localStorage.setItem('executablePath', JSON.stringify(value))
   }
 
   const handleClick = async () => {
@@ -20,6 +44,7 @@ function App() {
       email: email,
       password: password,
       listingPageCount: pageCount,
+      executablePath: executablePath,
       logInfo: logInfo
     })
     setIsBumping(false)
@@ -72,11 +97,26 @@ function App() {
         {!isBumping && (
           <div style={{ width: '300px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <label style={{ fontSize: '14px', marginBottom: '4px' }}>Executable path:</label>
+              <input
+                value={executablePath}
+                onChange={(e) => handleSetExecutablePath(e.target.value)}
+                style={{
+                  fontSize: '17px',
+                  backgroundColor: '#1a130e',
+                  color: '#f28303',
+                  outline: 'none',
+                  padding: '8px',
+                  border: '1px inset #6d3c04f3',
+                  borderRadius: '3px'
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               <label style={{ fontSize: '14px', marginBottom: '4px' }}>Email:</label>
               <input
-                type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleSetEmail(e.target.value)}
                 style={{
                   fontSize: '17px',
                   backgroundColor: '#1a130e',
@@ -103,7 +143,7 @@ function App() {
                 }}
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => handleSetPassword(e.target.value)}
               />
             </div>
 
@@ -112,7 +152,7 @@ function App() {
               <input
                 type="number"
                 value={pageCount}
-                onChange={(e) => setPageCount(parseInt(e.target.value))}
+                onChange={(e) => handleSetPageCount(parseInt(e.target.value))}
                 style={{
                   fontSize: '17px',
                   backgroundColor: '#1a130e',
