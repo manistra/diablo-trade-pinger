@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import Dropdown from './form/Dropdown'
 import { equipmentOptions } from '../data'
 import { AFFIX_OPTIONS } from '../data'
 import Input from './form/Input'
+import DiabloTradePingerContext from '../context'
 
 const AddListing = ({ close }) => {
   AddListing.propTypes = {
     close: PropTypes.func.isRequired
   }
+
+  const { hanldeAddListing } = useContext(DiabloTradePingerContext)
+
   const [equipmentType, setEquipmentType] = useState(null)
   const [affixes, setAffixes] = useState([
     { name: '', minValue: 0 },
@@ -95,7 +99,18 @@ const AddListing = ({ close }) => {
         <button className="btn border-diablo text-diablo" onClick={close}>
           Cancel
         </button>
-        <button className="btn border-none text-diablo-bg font-bold bg-diablo">
+        <button
+          className="btn border-none text-diablo-bg font-bold bg-diablo"
+          onClick={() => {
+            hanldeAddListing({
+              id: 'id' + Math.random().toString(16).slice(2),
+              equipmentType: equipmentType,
+              affixes: affixes
+            })
+
+            close()
+          }}
+        >
           Create Listing
         </button>
       </div>
