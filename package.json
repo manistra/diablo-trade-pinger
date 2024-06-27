@@ -23,7 +23,8 @@
     "@electron-toolkit/utils": "^3.0.0",
     "puppeteer": "^22.11.2",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "react-tailwindcss-select": "^1.8.5"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",

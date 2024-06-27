@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn {
+    @apply border-white border px-3 py-2 rounded;
+  }
+}
+
 @font-face {
   font-family: 'ExocetOTCECY-Medium';
   src: url('https://db.onlinewebfonts.com/t/1241ae66485548a9fed1d3c923f27761.eot');
@@ -16,32 +22,14 @@
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-items: center;
-  align-content: center;
+  padding: 30px;
   overflow: hidden;
   height: 100 vh;
   user-select: none;
   background-image: url('../assets/background.png');
   background-size: cover;
   background-position: center;
-  color: #f28303;
-}
-
-.logo {
-  margin-bottom: 20px;
-  -webkit-user-drag: none;
-  height: 128px;
-  width: 128px;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 1.2em #f28303);
-  cursor: pointer;
+  color: white;
 }
 
 .button {
@@ -52,10 +40,4 @@ body {
 .button:hover {
   filter: drop-shadow(0 0 1.2em #f28303);
   cursor: pointer;
-}
-
-.bump-logger {
-  background: #080400b2;
-  padding: 40px;
-  border-radius: 30px;
 }
