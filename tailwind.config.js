@@ -12,7 +12,8 @@ module.exports = {
     extend: {
       colors: {
         diablo: '#f28303',
-        'diablo-dark': '#613e16'
+        'diablo-dark': '#613e16',
+        'diablo-bg': '#1a130e'
       },
       fontFamily: {
         exo: ['ExocetOTCECY-Medium']

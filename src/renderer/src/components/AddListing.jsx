@@ -1,10 +1,14 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 import Dropdown from './form/Dropdown'
 import { equipmentOptions } from '../data'
 import { AFFIX_OPTIONS } from '../data'
 import Input from './form/Input'
 
-const AddListing = () => {
+const AddListing = ({ close }) => {
+  AddListing.propTypes = {
+    close: PropTypes.func.isRequired
+  }
   const [equipmentType, setEquipmentType] = useState(null)
   const [affixes, setAffixes] = useState([
     { name: '', minValue: 0 },
@@ -13,7 +17,6 @@ const AddListing = () => {
   ])
 
   const handleSetAffixName = (index, value) => {
-    confirm('dada')
     const affixesCopy = [...affixes]
     affixesCopy[index] = { name: value, minValue: affixesCopy[index].minValue }
     setAffixes(affixesCopy)
@@ -26,8 +29,8 @@ const AddListing = () => {
   }
 
   return (
-    <div className="border-white border p-8 rounded flex flex-col gap-4">
-      <h1 className="font-exo uppercase text-2xl">New Listing</h1>
+    <div className="border-diablo-dark min-w-[800px] max-w-[800px] border p-8 rounded flex flex-col gap-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-diablo-bg">
+      <h1 className="font-exo uppercase text-diablo mx-auto text-3xl">New Listing</h1>
 
       <Dropdown
         label="Equipment Type:"
@@ -48,6 +51,7 @@ const AddListing = () => {
             />
 
             <Input
+              type="number"
               label="Min Value"
               value={affixes[0].minValue}
               setValue={(value) => handleSetAffixMinValue(0, value)}
@@ -63,6 +67,7 @@ const AddListing = () => {
               options={AFFIX_OPTIONS[equipmentType]}
             />
             <Input
+              type="number"
               label="Min Value"
               value={affixes[1].minValue}
               setValue={(value) => handleSetAffixMinValue(1, value)}
@@ -77,6 +82,7 @@ const AddListing = () => {
               options={AFFIX_OPTIONS[equipmentType]}
             />
             <Input
+              type="number"
               label="Min Value"
               value={affixes[2].minValue}
               setValue={(value) => handleSetAffixMinValue(2, value)}
@@ -85,7 +91,14 @@ const AddListing = () => {
         </>
       )}
 
-      <button className="btn self-end">Create Listing</button>
+      <div className="flex flex-row justify-end gap-4">
+        <button className="btn border-diablo text-diablo" onClick={close}>
+          Cancel
+        </button>
+        <button className="btn border-none text-diablo-bg font-bold bg-diablo">
+          Create Listing
+        </button>
+      </div>
     </div>
   )
 }

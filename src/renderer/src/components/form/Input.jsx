@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
 
-const Input = ({ value, label, setValue }) => {
+const Input = ({ value, label, setValue, ...otherProps }) => {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm text-diablo">{label}</label>
 
       <input
+        {...otherProps}
         className="text-black rounded h-9 p-4"
         value={value}
         onChange={(e) => setValue(e.target.value)}
