@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, remote, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -56,10 +56,6 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()
-
-  document.getElementById('close-app').addEventListener('click', function () {
-    remote.getCurrentWindow().close()
-  })
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

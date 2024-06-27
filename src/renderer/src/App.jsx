@@ -52,6 +52,7 @@ function App() {
 
   return (
     <div
+      className="bg-black"
       style={{
         gap: 3,
         display: 'flex',
