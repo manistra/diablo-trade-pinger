@@ -22,7 +22,7 @@ const Listings = () => {
                       <span className="h-1 w-1 rotate-45 border bg-white"></span>
 
                       <p>{affix.name}</p>
-                      <p className="font-exo text-xl text-diablo">{affix.minValue}</p>
+                      <p className="font-exo text-xl text-diablo">{'>= ' + affix.minValue}</p>
                     </li>
                   )}
                 </Fragment>
@@ -30,14 +30,14 @@ const Listings = () => {
             </ul>
           </div>
 
-          <button onClick={() => deleteListingById(listing.id)}>
+          <button className="group" onClick={() => deleteListingById(listing.id)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-8 text-gray-400 hover:opacity-75"
+              className="size-8 group-hover:scale-110 duration-300 group-hover:text-diablo transition text-diablo-dark cursor-pointer"
             >
               <path
                 strokeLinecap="round"

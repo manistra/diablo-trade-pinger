@@ -39,7 +39,7 @@ const Ping = ({ ping }) => {
                 <li className="flex flex-row gap-3 items-center pl-4 text-xs">
                   <span className="h-1 w-1 rotate-45 border bg-white"></span>
                   <p>{affix.name}</p>
-                  <p className="font-exo text-diablo">{affix.minValue}</p>
+                  <p className="font-exo text-diablo"> {'>= ' + affix.minValue}</p>
                 </li>
               )}
             </Fragment>
@@ -83,7 +83,7 @@ const Ping = ({ ping }) => {
         </div>
 
         <a
-          className="flex flex-col items-center bg-black bg-opacity-40 p-5 border-diablo-bg border-t"
+          className="flex flex-col items-center bg-black bg-opacity-40 p-5 border-diablo-bg border-t hover:border-diablo hover:border hover:scale-[101%] transition duration-500"
           href={`https://diablo.trade/listings/items/${ping.diabloTradeId}`}
           onClick={(e) => {
             setIsClicked(true)

@@ -5,15 +5,17 @@ import { snoopForItems } from '../pupeteer'
 const useSnoop = () => {
   const [intervalId, setIntervalId] = useState(null)
 
-  const { executablePath, handleAddPings, setIsSnooping, isSnooping, listings } =
+  const { executablePath, handleAddPings, setIsSnooping, isSnooping, listings, showBrowser } =
     useContext(DiabloTradePingerContext)
 
-  const snoop = async () =>
+  const snoop = async () => {
     snoopForItems({
       executablePath: executablePath,
       handleAddPings: handleAddPings,
-      listings: listings
+      listings: listings,
+      showBrowser: showBrowser
     })
+  }
 
   const startSnooping = async () => {
     if (!isSnooping) {

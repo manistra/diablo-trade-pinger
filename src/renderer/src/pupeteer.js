@@ -5,13 +5,13 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
 
-export const snoopForItems = async ({ executablePath, handleAddPings, listings }) => {
+export const snoopForItems = async ({ executablePath, handleAddPings, listings, showBrowser }) => {
   console.log('Started snooping...')
   let finalResult = []
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
-    headless: false
+    headless: !showBrowser
   })
   const page = await browser.newPage()
 

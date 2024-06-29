@@ -39,8 +39,8 @@ const PingsTab = () => {
       </div>
 
       <div className="flex flex-wrap gap-5 overflow-y-scroll h-[88%] py-6">
-        {pings.map((ping, index) => (
-          <Ping ping={ping} key={index} />
+        {pings.map((ping) => (
+          <Ping ping={ping} key={ping.diabloTradeId} />
         ))}
       </div>
     </div>

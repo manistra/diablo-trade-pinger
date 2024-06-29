@@ -10,6 +10,7 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   }
   const [isAddListingOpen, setIsAddListingOpen] = useState(false)
   const [isSnooping, setIsSnooping] = useState(false)
+  const [showBrowser, setShowBrowser] = useState(false)
 
   const existingListings = localStorage.getItem('listings')
   const existingPings = localStorage.getItem('pings')
@@ -80,6 +81,9 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   return (
     <DiabloTradePingerContext.Provider
       value={{
+        showBrowser,
+        setShowBrowser,
+
         isAddListingOpen,
         setIsAddListingOpen,
 
