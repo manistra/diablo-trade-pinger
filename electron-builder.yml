@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: diablo-trade-bumper
+productName: diablo-trade-pinger
 directories:
   buildResources: build
 files:
@@ -11,7 +11,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: diablo-trade-bumper
+  executableName: diablo-trade-pinger
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

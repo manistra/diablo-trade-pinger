@@ -1,4 +1,4 @@
-# diablo-trade-bumper
+# diablo-trade-pinger
 
 An Electron application with React
 
