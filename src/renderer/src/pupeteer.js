@@ -19,6 +19,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
     await page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`)
 
     await page.waitForSelector('#app-container', { visible: true, timeout: 0 })
+    await page.waitForSelector('.WTS', { visible: true, timeout: 0 })
 
     const result = await page.evaluate((listings) => {
       const itemsToPing = []
@@ -74,10 +75,19 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
         listings.forEach((listing) => {
           let numberOfMatchedAffixes = 0
 
-          if (
-            element.innerText.toLowerCase().includes(listing.equipmentType.toLowerCase()) &&
-            element.innerText.toLowerCase().includes('legendary')
-          ) {
+          const isEquipmentType = element.innerText
+            .toLowerCase()
+            .includes(listing.equipmentType.toLowerCase())
+          const isLegendary = element.innerText.toLowerCase().includes('legendary')
+
+          const isListingEquipmentTypeOneHanded = ['axe', 'mace', 'scythe', 'sword'].includes(
+            listing.equipmentType.toLowerCase()
+          )
+          const isTwoHanded = element.innerText.toLowerCase().includes('two-handed')
+
+          const oneHandedGuardCondition = isListingEquipmentTypeOneHanded ? !isTwoHanded : true
+
+          if (isEquipmentType && isLegendary && oneHandedGuardCondition) {
             listing.affixes.forEach(async (affix) => {
               const affixNameLower = affix.name.toLowerCase()
               const matchedElementAffix = elementAffixes.find((elementAffix) =>
@@ -99,7 +109,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
 
             if (
               (listing.affixes.length >= 2 && numberOfMatchedAffixes >= 2) ||
-              (listing.affixes.length === 1 && numberOfMatchedAffixes === 1)
+              (listing.affixes.length === 1 && numberOfMatchedAffixes > 0)
             ) {
               const tradeElement = element.querySelector('.backdrop-blur')
               const offerState = tradeElement.textContent.toLowerCase().includes('taking offers')
@@ -112,7 +122,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
               const listed = listedElement.textContent
 
               if (
-                price.toLowerCase() == 'Make an Offer!' ||
+                price.toLowerCase().includes('offer') ||
                 Number(price.replace(/,/g, '')) <= Number(listing.maxPrice)
               )
                 itemsToPing.push({
@@ -132,9 +142,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
 
       return itemsToPing
     }, listings)
-    const existingIds = finalResult.map((item) => item.diabloTradeId)
-    const uniqueItems = result.filter((item) => !existingIds.includes(item.diabloTradeId))
-    finalResult = [...finalResult, ...uniqueItems]
+    finalResult = [...finalResult, ...result]
 
     await setTimeout(300)
   }

@@ -38,8 +38,8 @@ const DiabloTradePingerContextProvider = ({ children }) => {
 
     if (newNonDuplicatePings.length > 0)
       notifier.notify({
-        title: 'Diablo Item Fond',
-        message: 'New items found, come check them out!',
+        title: `${newNonDuplicatePings.length} New Items Found!`,
+        message: 'Items found, come check them out!',
         sound: true,
         icon: path.join(__dirname, '../assets/logo.png'),
         wait: true

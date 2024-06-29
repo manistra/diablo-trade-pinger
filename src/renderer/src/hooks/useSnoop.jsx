@@ -19,8 +19,8 @@ const useSnoop = () => {
 
   const startSnooping = async () => {
     if (!isSnooping) {
-      snoop()
-      const id = setInterval(snoop, 25000)
+      await snoop()
+      const id = setInterval(snoop, 30000)
       setIntervalId(id)
       setIsSnooping(true)
     }
