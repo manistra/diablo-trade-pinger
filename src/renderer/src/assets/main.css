@@ -72,7 +72,4 @@ body {
   &::-webkit-scrollbar-thumb {
     background-color: '#613e16';
   }
-  &::-webkit-scrollbar-track {
-    border-left: 1px solid #f9f9f9;
-  }
 }
