@@ -1,20 +1,19 @@
-import { useState } from 'react'
+import { useContext } from 'react'
+import DiabloTradePingerContext from '../context'
+import Input from './form/Input'
 
 const Settings = () => {
-  const executablePathLocalStorage = JSON.parse(localStorage.getItem('executablePath'))
+  const { executablePath, handleSetExecutablePath } = useContext(DiabloTradePingerContext)
 
-  const [executablePath, setExecutablePath] = useState(executablePathLocalStorage)
-
-  const handleSetExecutablePath = (value) => {
-    setExecutablePath(value)
-    localStorage.setItem('executablePath', JSON.stringify(value))
-  }
   return (
     <div>
-      <div>
-        <label>Executable path:</label>
-        <input value={executablePath} onChange={(e) => handleSetExecutablePath(e.target.value)} />
-      </div>
+      <Input
+        label="Browser Path"
+        value={executablePath || ''}
+        setValue={handleSetExecutablePath}
+        placeholder="Enter browser path"
+        className="bg-diablo-bg rounded-none"
+      />
     </div>
   )
 }

@@ -32,6 +32,17 @@ const AddListing = ({ close }) => {
     setAffixes(affixesCopy)
   }
 
+  const handleCreate = () => {
+    if (equipmentType && (affixes[0]?.name || affixes[1]?.name || affixes[2]?.name))
+      hanldeAddListing({
+        id: 'id' + Math.random().toString(16).slice(2),
+        equipmentType: equipmentType,
+        affixes: affixes.filter((affix) => affix.name !== '')
+      })
+
+    close()
+  }
+
   return (
     <div className="border-diablo-dark min-w-[800px] max-w-[800px] border p-8 rounded flex flex-col gap-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-diablo-bg">
       <h1 className="font-exo uppercase text-diablo mx-auto text-3xl">New Listing</h1>
@@ -101,15 +112,7 @@ const AddListing = ({ close }) => {
         </button>
         <button
           className="btn border-none text-diablo-bg font-bold bg-diablo"
-          onClick={() => {
-            hanldeAddListing({
-              id: 'id' + Math.random().toString(16).slice(2),
-              equipmentType: equipmentType,
-              affixes: affixes
-            })
-
-            close()
-          }}
+          onClick={handleCreate}
         >
           Create Listing
         </button>

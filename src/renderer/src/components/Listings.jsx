@@ -1,11 +1,11 @@
-import { useContext } from 'react'
+import { useContext, Fragment } from 'react'
 import DiabloTradePingerContext from '../context'
 
 const Listings = () => {
   const { listings, deleteListingById } = useContext(DiabloTradePingerContext)
 
   return (
-    <div className="flex flex-col gap-5 overflow-y-scroll h-[92%] overflow-scroll">
+    <div className="flex flex-col gap-5 overflow-y-scroll h-[92%]">
       {listings.map((listing, index) => (
         <div
           key={index}
@@ -16,9 +16,9 @@ const Listings = () => {
 
             <ul>
               {listing.affixes.map((affix, subIndex) => (
-                <>
-                  {!!affix.name && (
-                    <li key={subIndex} className="flex flex-row gap-4 items-center pl-4">
+                <Fragment key={`${index}-${subIndex}`}>
+                  {!!affix?.name && (
+                    <li className="flex flex-row gap-4 items-center pl-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -38,7 +38,7 @@ const Listings = () => {
                       <p className="font-exo text-xl text-diablo">{affix.minValue}</p>
                     </li>
                   )}
-                </>
+                </Fragment>
               ))}
             </ul>
           </div>

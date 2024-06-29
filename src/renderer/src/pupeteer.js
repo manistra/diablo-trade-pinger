@@ -4,151 +4,126 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
 
-async function clearFocusedInput(page) {
-  await page.keyboard.press('Home')
-  await page.keyboard.down('Shift')
-  await page.keyboard.press('End')
-  await page.keyboard.up('Shift')
-  await page.keyboard.press('Backspace')
-}
-
-const getLevelRequiredValue = (value) => {
-  if (value === '80' || value === 80) return '79'
-  else return '80'
-}
-
-export const bumpDiabloTradeAllItems = async ({
-  email,
-  password,
-  listingPageCount,
-  logInfo,
-  executablePath
+export const snoopForItems = async ({
+  executablePath,
+  setIsSnooping,
+  handleAddPings,
+  listings
 }) => {
-  logInfo('DIABLO TRADE BUMPER STARTED')
+  console.log('Started snooping...')
+  let finalResult = []
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
     headless: false
   })
   const page = await browser.newPage()
-  await page.goto('https://diablo.trade')
-  await page.evaluate(() => {
-    window.alert = () => {}
-    window.confirm = () => true
-    window.prompt = () => null
-  })
 
-  await page.waitForSelector('body', { timeout: 5000 })
+  for (let i = 1; i <= 1; i++) {
+    await page.goto(
+      `https://diablo.trade/listings/items?cursor=&equipment=gloves&group1=cc00787d7742177%7Cf94fe40d6c82dde%40greater&cursor=${i}`
+    )
 
-  await page.evaluate(() => {
-    const buttons = Array.from(document.querySelectorAll('button, a'))
-
-    const loginButton = buttons.find((button) => button.textContent.includes('Log in'))
-    if (loginButton) {
-      loginButton.click()
-    }
-  })
-
-  logInfo('Logging into diablo.trade... Enter password and solve captcha if needed.')
-
-  await page.waitForSelector('#accountName')
-  await page.type('#accountName', email)
-  await page.type('#password', password)
-  await page.evaluate(() => {
-    const buttons = Array.from(document.querySelectorAll('button, a'))
-
-    const loginButton = buttons.find((button) => button.textContent.includes('Log in'))
-    if (loginButton) {
-      loginButton.click()
-    }
-  })
-
-  await page.waitForSelector('#app-container', { visible: true, timeout: 0 })
-  logInfo('Logged into diablo.trade')
-
-  const getIds = async (sel) => {
-    return await page.evaluate((selector) => {
-      const parentElement = document.querySelector(selector)
-      const childElements = parentElement.querySelectorAll('.backdrop-blur')
-      let elementsArray = []
-      childElements.forEach((childElement) => {
-        elementsArray.push(childElement.id)
-      })
-      return elementsArray
-    }, sel)
-  }
-
-  let ids = []
-
-  for (let i = 1; i <= listingPageCount; i++) {
-    await page.goto(`https://diablo.trade/my-listings/items?cursor=${i}`)
-    const parentSelector = '[type="listing"]'
-    await page.waitForSelector(parentSelector)
-
-    ids = [...ids, ...(await getIds(parentSelector))]
-  }
-
-  logInfo(`Found ${ids.length} items!`)
-  await setTimeout(1000)
-
-  logInfo('STARTING TO BUMP...')
-
-  for (let i = 0; i < ids.length; i++) {
-    await setTimeout(1000)
-
-    await page.goto(`https://diablo.trade/edit/${ids[i]}`)
     await page.waitForSelector('#app-container', { visible: true, timeout: 0 })
 
-    const levelRequiredInputSelector = '#level-required-input'
+    const result = await page.evaluate((listings) => {
+      const itemsToPing = []
 
-    await page.$$eval('span', (elements) => {
-      for (const element of elements) {
-        if (element.textContent === 'Level Required') {
-          const siblingElement = element.nextElementSibling
-          if (siblingElement) {
-            const firstChild = siblingElement.firstElementChild
-            if (firstChild) {
-              firstChild.style.border = '2px solid green'
-              firstChild.id = 'level-required-input'
+      const elements = document.querySelectorAll('.WTS')
+
+      const findSmallestElementWithMatchedText = ({ element, text }) => {
+        if (element.nodeType === Node.ELEMENT_NODE) {
+          if (
+            element.textContent.toLowerCase().includes(text) &&
+            Array.from(element.parentNode.childNodes).some(
+              (siblingNode) => siblingNode.alt !== 'unique star'
+            )
+          ) {
+            let smallestElement = element
+            for (let childNode of element.childNodes) {
+              const childMatch = findSmallestElementWithMatchedText({
+                element: childNode,
+                text: text
+              })
+              if (
+                childMatch &&
+                childMatch.textContent.length < smallestElement.textContent.length
+              ) {
+                smallestElement = childMatch
+              }
+            }
+            return smallestElement
+          }
+
+          for (let childNode of element.childNodes) {
+            const result = findSmallestElementWithMatchedText({
+              element: childNode,
+              text: text
+            })
+            if (result) {
+              return result
             }
           }
-          break
+        }
+        return null
+      }
+
+      const getMatchedAffixValue = (originalString, substring) => {
+        let index = originalString.toLowerCase().indexOf(substring)
+
+        if (index !== -1) {
+          return originalString.substring(0, index).replace(/%/g, '').replace(/\s/g, '')
+        } else {
+          return originalString.replace(/%/g, '').replace(/\s/g, '')
         }
       }
-    })
 
-    const inputElement = await page.$('#level-required-input')
-    const valueHandle = await inputElement.getProperty('value')
-    const inputValue = await valueHandle.jsonValue()
+      elements.forEach((element) => {
+        listings.forEach((listing) => {
+          let numberOfAffixes = 0
 
-    await page.focus(levelRequiredInputSelector)
-    await clearFocusedInput(page)
-    await page
-      .waitForSelector(levelRequiredInputSelector)
-      .then((input) => input.type(getLevelRequiredValue(inputValue)))
+          if (element.innerText.toLowerCase().includes(listing.equipmentType.toLowerCase())) {
+            listing.affixes.forEach((affix) => {
+              const affixNameLower = affix.name.toLowerCase()
 
-    await page.$$eval('button', (elements) => {
-      for (const element of elements) {
-        if (element.textContent === 'Submit') {
-          element.click()
-          break
-        }
-      }
-    })
+              if (element.innerText.toLowerCase().includes(affixNameLower)) {
+                if (affix.minValue == 0) {
+                  numberOfAffixes++
+                } else {
+                  const smallestElement = findSmallestElementWithMatchedText({
+                    element: element,
+                    text: affixNameLower
+                  })
+                  const affixFullText = smallestElement.textContent.trim()
+                  const matchedAffixValue = getMatchedAffixValue(affixFullText, affixNameLower)
 
-    await page.$$eval('button', (elements) => {
-      for (const element of elements) {
-        if (element.textContent === 'Confirm') {
-          element.click()
-          break
-        }
-      }
-    })
+                  if (Number(matchedAffixValue) >= Number(affix.minValue)) numberOfAffixes++
+                }
+              }
+            })
 
-    logInfo(`${i + 1} out of ${ids.length} items bumped!`)
+            if (
+              (listing.affixes.length >= 2 && numberOfAffixes >= 2) ||
+              (listing.affixes.length === 1 && numberOfAffixes === 1)
+            ) {
+              const childElement = element.querySelector('.backdrop-blur')
+              itemsToPing.push({ ...listing, diabloTradeId: childElement.id })
+            }
+          }
+        })
+      })
 
-    await setTimeout(1000)
+      return itemsToPing
+    }, listings)
+    const existingIds = finalResult.map((item) => item.diabloTradeId)
+    const uniqueItems = result.filter((item) => !existingIds.includes(item.diabloTradeId))
+    finalResult = [...finalResult, ...uniqueItems]
   }
 
+  handleAddPings(finalResult)
+
+  // Close browser after timeout and cleanup
+  await setTimeout(7000)
   await browser.close()
+  setIsSnooping(false)
 }
