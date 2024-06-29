@@ -14,7 +14,7 @@ const Ping = ({ ping }) => {
       className="flex items-center flex-col  w-[274px] h-[450px] border border-gray-800 pb-1"
       style={{ opacity: isClicked ? '60%' : '100%' }}
     >
-      <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll relative">
+      <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll scrollbar relative">
         <button
           className="group absolute top-1 right-1 p-1"
           onClick={() => deletePingById(ping.diabloTradeId)}

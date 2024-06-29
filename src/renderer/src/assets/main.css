@@ -46,3 +46,33 @@ body {
 .item-bg {
   background: transparent url('./item-bg.jpg') !important;
 }
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: '#613e16';
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    margin-bottom: -3px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-track-piece:start {
+    background: transparent url('./assets/images/transparent.png') repeat-y !important;
+  }
+  &::-webkit-scrollbar-track-piece:end {
+    background: transparent url('./assets/images/transparent.png') repeat-y !important;
+  }
+}
+.scrollbar:hover {
+  &::-webkit-scrollbar-thumb {
+    background-color: '#613e16';
+  }
+  &::-webkit-scrollbar-track {
+    border-left: 1px solid #f9f9f9;
+  }
+}

@@ -5,7 +5,7 @@ const Listings = () => {
   const { listings, deleteListingById } = useContext(DiabloTradePingerContext)
 
   return (
-    <div className="flex flex-col gap-5 overflow-y-scroll h-[92%]">
+    <div className="flex flex-col gap-5 overflow-y-scroll scrollbar h-[92%]">
       {listings.map((listing, index) => (
         <div
           key={index}
