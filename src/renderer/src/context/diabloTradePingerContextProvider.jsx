@@ -9,14 +9,17 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   DiabloTradePingerContextProvider.propTypes = {
     children: PropTypes.node.isRequired
   }
-  const [isAddListingOpen, setIsAddListingOpen] = useState(false)
-  const [isSnooping, setIsSnooping] = useState(false)
-  const [showBrowser, setShowBrowser] = useState(false)
-
   const existingListings = localStorage.getItem('listings')
   const existingPings = localStorage.getItem('pings')
   const executablePathLocalStorage = JSON.parse(localStorage.getItem('executablePath'))
+  const exisingRunInterval = JSON.parse(localStorage.getItem('run-interval'))
+  const exisingPagesPerRun = JSON.parse(localStorage.getItem('pages-per-run'))
 
+  const [isAddListingOpen, setIsAddListingOpen] = useState(false)
+  const [isSnooping, setIsSnooping] = useState(false)
+  const [showBrowser, setShowBrowser] = useState(false)
+  const [pagesPerRun, setPagesPerRun] = useState(Number(exisingRunInterval) || 10)
+  const [runInterval, setRunInterval] = useState(Number(exisingPagesPerRun) || 30)
   const [listings, setListings] = useState(existingListings ? JSON.parse(existingListings) : [])
   const [pings, setPings] = useState(existingPings ? JSON.parse(existingPings) : [])
   const [executablePath, setExecutablePath] = useState(executablePathLocalStorage)
@@ -79,6 +82,14 @@ const DiabloTradePingerContextProvider = ({ children }) => {
     setListings(listingsCopy)
     localStorage.setItem('listings', JSON.stringify(listingsCopy))
   }
+  const handleSetRunInterval = (value) => {
+    setRunInterval(value)
+    localStorage.setItem('run-interval', JSON.stringify(value))
+  }
+  const handleSetPagesPerRun = (value) => {
+    setPagesPerRun(value)
+    localStorage.setItem('pages-per-run', JSON.stringify(value))
+  }
 
   return (
     <DiabloTradePingerContext.Provider
@@ -88,6 +99,11 @@ const DiabloTradePingerContextProvider = ({ children }) => {
 
         isAddListingOpen,
         setIsAddListingOpen,
+
+        pagesPerRun,
+        handleSetPagesPerRun,
+        runInterval,
+        handleSetRunInterval,
 
         isSnooping,
         setIsSnooping,

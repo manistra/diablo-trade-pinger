@@ -5,7 +5,13 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
 
-export const snoopForItems = async ({ executablePath, handleAddPings, listings, showBrowser }) => {
+export const snoopForItems = async ({
+  executablePath,
+  handleAddPings,
+  listings,
+  showBrowser,
+  pagesPerRun = 0
+}) => {
   console.log('Started snooping...')
   let finalResult = []
 
@@ -15,7 +21,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
   })
   const page = await browser.newPage()
 
-  for (let i = 1; i <= 15; i++) {
+  for (let i = 1; i <= pagesPerRun; i++) {
     await page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`)
 
     await page.waitForSelector('#app-container', { visible: true, timeout: 0 })

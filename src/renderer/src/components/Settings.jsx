@@ -4,13 +4,41 @@ import Input from './form/Input'
 
 const Settings = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const { executablePath, handleSetExecutablePath, showBrowser, setShowBrowser } =
-    useContext(DiabloTradePingerContext)
+  const {
+    executablePath,
+    handleSetExecutablePath,
+    showBrowser,
+    setShowBrowser,
+    pagesPerRun,
+    handleSetPagesPerRun,
+    runInterval,
+    handleSetRunInterval
+  } = useContext(DiabloTradePingerContext)
 
   return (
     <>
       {settingsOpen ? (
         <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative">
+          <Input
+            label="Set how many pages to cover per run"
+            value={pagesPerRun || 10}
+            setValue={handleSetPagesPerRun}
+            type="number"
+            min={0}
+            max={30}
+            className="bg-diablo-bg rounded-none text-diablo"
+          />
+
+          <Input
+            label="Set run interval in seconds"
+            type="number"
+            min={10}
+            max={600}
+            value={runInterval || 30}
+            setValue={handleSetRunInterval}
+            className="bg-diablo-bg rounded-none text-diablo"
+          />
+
           <Input
             label="Browser Path"
             value={executablePath || ''}
