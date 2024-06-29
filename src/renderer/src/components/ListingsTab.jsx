@@ -17,7 +17,7 @@ const ListingsTab = () => {
               if (confirm('Are you sure you want to delete all listings?')) deleteAllListings()
             }}
           >
-            Delete All Listings
+            Clear Listings
           </button>
           <button
             className="btn border-diablo opacity-80 text-diablo hover:opacity-100"

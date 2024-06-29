@@ -4,12 +4,7 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
 
-export const snoopForItems = async ({
-  executablePath,
-  setIsSnooping,
-  handleAddPings,
-  listings
-}) => {
+export const snoopForItems = async ({ executablePath, handleAddPings, listings }) => {
   console.log('Started snooping...')
   let finalResult = []
 
@@ -19,7 +14,7 @@ export const snoopForItems = async ({
   })
   const page = await browser.newPage()
 
-  for (let i = 1; i <= 1; i++) {
+  for (let i = 1; i <= 5; i++) {
     await page.goto(
       `https://diablo.trade/listings/items?cursor=&equipment=gloves&group1=cc00787d7742177%7Cf94fe40d6c82dde%40greater&cursor=${i}`
     )
@@ -118,12 +113,12 @@ export const snoopForItems = async ({
     const existingIds = finalResult.map((item) => item.diabloTradeId)
     const uniqueItems = result.filter((item) => !existingIds.includes(item.diabloTradeId))
     finalResult = [...finalResult, ...uniqueItems]
+
+    await setTimeout(1000)
   }
 
   handleAddPings(finalResult)
 
   // Close browser after timeout and cleanup
-  await setTimeout(7000)
   await browser.close()
-  setIsSnooping(false)
 }

@@ -41,3 +41,7 @@ body {
   filter: drop-shadow(0 0 1.2em #f28303);
   cursor: pointer;
 }
+
+.item-bg {
+  background: transparent url('./item-bg.jpg') !important;
+}
