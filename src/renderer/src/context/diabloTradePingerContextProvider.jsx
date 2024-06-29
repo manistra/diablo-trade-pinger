@@ -52,6 +52,13 @@ const DiabloTradePingerContextProvider = ({ children }) => {
     setPings([])
   }
 
+  const deletePingById = (id) => {
+    const pingsCopy = pings.filter((item) => item.diabloTradeId !== id)
+
+    setPings(pingsCopy)
+    localStorage.setItem('pings', JSON.stringify(pingsCopy))
+  }
+
   const hanldeAddListing = (listing) => {
     const newListing = [...listings, listing]
     setListings(newListing)
@@ -89,7 +96,8 @@ const DiabloTradePingerContextProvider = ({ children }) => {
 
         pings,
         handleAddPings,
-        deleteAllPings
+        deleteAllPings,
+        deletePingById
       }}
     >
       {children}
