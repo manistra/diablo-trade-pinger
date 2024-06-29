@@ -1,44 +1,22 @@
 import { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
-const Ping = ({ key, ping }) => {
+import ga from '../assets/ga.png'
+const Ping = ({ ping }) => {
   const openInBrowser = (url) => {
     window.open(url, '_blank')
   }
   return (
-    <a
-      href={`https://diablo.trade/listings/items/${ping.diabloTradeId}`}
-      key={key}
-      className=" flex items-center flex-col w-[274px]"
-      onClick={(e) => {
-        e.preventDefault()
-        openInBrowser(e.currentTarget.href)
-      }}
-    >
-      <div className="bg-black bg-opacity-30 border border-diablo border-b-0 rounded p-3 w-full">
-        <h2 className="font-exo text-xl text-diablo mb-2">{ping.equipmentType}</h2>
+    <div className="flex items-center flex-col  w-[274px] h-[479px]">
+      <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll">
+        <h2 className="text-sm">{ping.listing.equipmentType}</h2>
         <ul>
-          {ping.affixes.map((affix, subIndex) => (
-            <Fragment key={`${key}-${subIndex}`}>
+          {ping.listing.affixes.map((affix, index) => (
+            <Fragment key={index}>
               {!!affix?.name && (
-                <li className="flex flex-row gap-2 text-sm items-center pl-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="text-diablo size-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-
+                <li className="flex flex-row gap-3 items-center pl-4 text-xs">
+                  <span className="h-1 w-1 rotate-45 border bg-white"></span>
                   <p>{affix.name}</p>
-                  <p className="font-exo text-xl text-diablo">{affix.minValue}</p>
+                  <p className="font-exo text-diablo">{affix.minValue}</p>
                 </li>
               )}
             </Fragment>
@@ -46,25 +24,79 @@ const Ping = ({ key, ping }) => {
         </ul>
       </div>
 
-      <div className="text-xs whitespace-pre-line break-words item-bg w-full h-[379px] p-7">
-        {ping.details}
+      <div className="text-xs whitespace-pre-line break-words flex justify-between flex-col item-bg w-full h-[379px]">
+        <div className="flex flex-col gap-4 px-7 pt-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-1">
+              {ping.item.affixes.map((affix, index) => (
+                <Fragment key={index}>
+                  {affix.isGreaterAffix && <img alt="ga" className="w-5 h-5" src={ga} />}
+                </Fragment>
+              ))}
+            </div>
+
+            <h2 className="capitalize text-[15px] text-diablo font-bold">
+              Ancestral Lengedary {ping.listing.equipmentType}
+            </h2>
+          </div>
+
+          <hr className="border-diablo-dark" />
+
+          <div className="flex flex-col gap-3">
+            {ping.item.affixes.map((affix, subIndex) => (
+              <div key={subIndex} className="flex flex-row items-center gap-2">
+                <div className="w-5 -ml-4 flex items-center justify-center">
+                  {affix.isGreaterAffix ? (
+                    <img alt="ga" className="w-4 h-4" src={ga} />
+                  ) : (
+                    <span className="h-1.5 w-1.5 rotate-45 border bg-gray-500"></span>
+                  )}
+                </div>
+
+                <span>{affix.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <a
+          className="flex flex-col items-center bg-black bg-opacity-40 p-2 border-diablo-bg border-t"
+          href={`https://diablo.trade/listings/items/${ping.diabloTradeId}`}
+          onClick={(e) => {
+            e.preventDefault()
+            openInBrowser(e.currentTarget.href)
+          }}
+        >
+          <span className="uppercase text-sm text-gray-400">{ping.item.offerState}</span>
+          <span className="text-diablo-yellow text-lg">{ping.item.price}</span>
+        </a>
       </div>
-    </a>
+    </div>
   )
 }
 
 Ping.propTypes = {
-  key: PropTypes.number,
   ping: PropTypes.shape({
     diabloTradeId: PropTypes.string,
-    equipmentType: PropTypes.string,
-    details: PropTypes.string,
-    affixes: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        minValue: PropTypes.number
-      })
-    )
+    listing: PropTypes.shape({
+      equipmentType: PropTypes.string,
+      affixes: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          minValue: PropTypes.number
+        })
+      )
+    }),
+    item: PropTypes.shape({
+      offerState: PropTypes.string,
+      listedTime: PropTypes.string,
+      price: PropTypes.string,
+      affixes: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string
+        })
+      )
+    })
   })
 }
 

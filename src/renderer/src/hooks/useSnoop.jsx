@@ -21,7 +21,6 @@ const useSnoop = () => {
       const id = setInterval(snoop, 25000)
       setIntervalId(id)
       setIsSnooping(true)
-      setIsSnooping(true)
     }
   }
 

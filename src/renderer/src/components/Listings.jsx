@@ -9,30 +9,17 @@ const Listings = () => {
       {listings.map((listing, index) => (
         <div
           key={index}
-          className="bg-diablo-bg p-6 rounded border bg-opacity-85 border-diablo-dark flex items-center flex-row justify-between"
+          className="p-6 bg-black bg-opacity-50 border border-diablo-bg  flex items-center flex-row justify-between"
         >
           <div>
-            <h2 className="font-exo text-2xl text-diablo mb-2">{listing.equipmentType}</h2>
+            <h2 className="text-xl mb-2">{listing.equipmentType}:</h2>
 
             <ul>
               {listing.affixes.map((affix, subIndex) => (
                 <Fragment key={`${index}-${subIndex}`}>
                   {!!affix?.name && (
                     <li className="flex flex-row gap-4 items-center pl-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="text-diablo size-4"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                      </svg>
+                      <span className="h-1 w-1 rotate-45 border bg-white"></span>
 
                       <p>{affix.name}</p>
                       <p className="font-exo text-xl text-diablo">{affix.minValue}</p>
@@ -50,7 +37,7 @@ const Listings = () => {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="size-10 text-red-800 hover:text-red-600"
+              className="size-8 text-gray-400 hover:opacity-75"
             >
               <path
                 strokeLinecap="round"

@@ -107,13 +107,10 @@ const AddListing = ({ close }) => {
       )}
 
       <div className="flex flex-row justify-end gap-4">
-        <button className="btn border-diablo text-diablo" onClick={close}>
+        <button className="btn-secondary" onClick={close}>
           Cancel
         </button>
-        <button
-          className="btn border-none text-diablo-bg font-bold bg-diablo"
-          onClick={handleCreate}
-        >
+        <button className="btn-primary" onClick={handleCreate}>
           Create Listing
         </button>
       </div>

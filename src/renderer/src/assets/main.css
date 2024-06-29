@@ -3,10 +3,18 @@
 @tailwind utilities;
 
 @layer components {
-  .btn {
-    @apply border-white border px-3 py-2 rounded;
+  .btn-primary {
+    @apply bg-diablo text-diablo-bg font-bold uppercase px-3 py-2 opacity-80 hover:opacity-100;
+  }
+  .btn-secondary {
+    @apply border-diablo text-diablo border px-3 py-2 opacity-70 hover:opacity-100;
+  }
+  .glow-shadow {
+    filter: drop-shadow(0 0 1.2em #f28303);
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @font-face {
   font-family: 'ExocetOTCECY-Medium';
@@ -30,16 +38,9 @@ body {
   background-size: cover;
   background-position: center;
   color: white;
-}
-
-.button {
-  width: 150px;
-  margin: auto;
-  margin-top: 28px;
-}
-.button:hover {
-  filter: drop-shadow(0 0 1.2em #f28303);
-  cursor: pointer;
+  font:
+    16px 'PT Serif',
+    serif;
 }
 
 .item-bg {

@@ -13,7 +13,8 @@ module.exports = {
       colors: {
         diablo: '#f28303',
         'diablo-dark': '#613e16',
-        'diablo-bg': '#1a130e'
+        'diablo-bg': '#1a130e',
+        'diablo-yellow': '#fef08a'
       },
       fontFamily: {
         exo: ['ExocetOTCECY-Medium']

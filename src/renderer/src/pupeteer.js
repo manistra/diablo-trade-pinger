@@ -1,3 +1,4 @@
+import { removeDuplicates } from './utils/removeDuplicates'
 const { setTimeout } = require('node:timers/promises')
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
@@ -10,7 +11,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
-    headless: true
+    headless: false
   })
   const page = await browser.newPage()
 
@@ -24,41 +25,37 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
 
       const elements = document.querySelectorAll('.WTS')
 
-      const findSmallestElementWithMatchedText = ({ element, text }) => {
-        if (element.nodeType === Node.ELEMENT_NODE) {
-          if (
-            element.textContent.toLowerCase().includes(text) &&
-            Array.from(element.parentNode.childNodes).some(
-              (siblingNode) => siblingNode.alt !== 'unique star'
-            )
-          ) {
-            let smallestElement = element
-            for (let childNode of element.childNodes) {
-              const childMatch = findSmallestElementWithMatchedText({
-                element: childNode,
-                text: text
-              })
-              if (
-                childMatch &&
-                childMatch.textContent.length < smallestElement.textContent.length
-              ) {
-                smallestElement = childMatch
-              }
-            }
-            return smallestElement
-          }
+      const findAffixes = (element) => {
+        // Get all elements that have an img with alt="separator"
+        const separatorElements = Array.from(element.querySelectorAll('img[alt="separator"]')).map(
+          (img) => img.closest('div')
+        ) // Get their closest div parent
 
-          for (let childNode of element.childNodes) {
-            const result = findSmallestElementWithMatchedText({
-              element: childNode,
-              text: text
-            })
-            if (result) {
-              return result
-            }
-          }
+        // Get the last two separator elements
+        const lastTwoSeparators = separatorElements.slice(-3)
+
+        if (lastTwoSeparators.length < 2) {
+          return []
         }
-        return null
+
+        // Get all elements between the last two separator elements
+        const affixElements = []
+        let currentNode = lastTwoSeparators[0].nextElementSibling
+
+        while (currentNode && currentNode !== lastTwoSeparators[1]) {
+          if (currentNode.hasAttribute('data-search')) {
+            affixElements.push(currentNode)
+          }
+          currentNode = currentNode.nextElementSibling
+        }
+
+        return affixElements.map((el) => {
+          const isGreaterAffix = Array.from(el.childNodes).some(
+            (childNode) => childNode.alt === 'greater affix'
+          )
+
+          return { value: el.textContent.trim().toLowerCase(), isGreaterAffix: isGreaterAffix }
+        })
       }
 
       const getMatchedAffixValue = (originalString, substring) => {
@@ -72,46 +69,57 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
       }
 
       elements.forEach((element) => {
+        const elementAffixes = findAffixes(element)
+
         listings.forEach((listing) => {
-          let numberOfAffixes = 0
+          let numberOfMatchedAffixes = 0
 
           if (
-            element.innerText
-              .toLowerCase()
-              .includes(
-                listing.equipmentType.toLowerCase() &&
-                  element.innerText.toLowerCase().includes('legendary')
-              )
+            element.innerText.toLowerCase().includes(listing.equipmentType.toLowerCase()) &&
+            element.innerText.toLowerCase().includes('legendary')
           ) {
-            listing.affixes.forEach((affix) => {
+            listing.affixes.forEach(async (affix) => {
               const affixNameLower = affix.name.toLowerCase()
+              const matchedElementAffix = elementAffixes.find((elementAffix) =>
+                elementAffix.value.includes(affixNameLower)
+              )
 
-              if (element.innerText.toLowerCase().includes(affixNameLower)) {
+              if (matchedElementAffix) {
                 if (affix.minValue == 0) {
-                  numberOfAffixes++
+                  numberOfMatchedAffixes++
                 } else {
-                  const smallestElement = findSmallestElementWithMatchedText({
-                    element: element,
-                    text: affixNameLower
-                  })
-                  const affixFullText = smallestElement.textContent.trim()
-                  const matchedAffixValue = getMatchedAffixValue(affixFullText, affixNameLower)
-
-                  if (Number(matchedAffixValue) >= Number(affix.minValue)) numberOfAffixes++
+                  const matchedAffixValue = getMatchedAffixValue(
+                    matchedElementAffix.value,
+                    affixNameLower
+                  )
+                  if (Number(matchedAffixValue) >= Number(affix.minValue)) numberOfMatchedAffixes++
                 }
               }
             })
 
             if (
-              (listing.affixes.length >= 2 && numberOfAffixes >= 2) ||
-              (listing.affixes.length === 1 && numberOfAffixes === 1)
+              (listing.affixes.length >= 2 && numberOfMatchedAffixes >= 2) ||
+              (listing.affixes.length === 1 && numberOfMatchedAffixes === 1)
             ) {
-              const childElement = element.querySelector('.backdrop-blur')
+              const tradeElement = element.querySelector('.backdrop-blur')
+              const offerState = tradeElement.textContent.toLowerCase().includes('taking offers')
+                ? 'Taking Offers'
+                : 'Exact Price'
+
+              const price = tradeElement.querySelector('h4').textContent
+
+              const listedElement = tradeElement.querySelector('span')
+              const listed = listedElement.textContent
 
               itemsToPing.push({
-                ...listing,
-                diabloTradeId: childElement.id,
-                details: element.innerText
+                diabloTradeId: tradeElement.id,
+                listing: listing,
+                item: {
+                  offerState: offerState,
+                  listedTime: listed,
+                  price: price,
+                  affixes: elementAffixes
+                }
               })
             }
           }
@@ -127,7 +135,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
     await setTimeout(300)
   }
 
-  handleAddPings(finalResult)
+  handleAddPings(removeDuplicates(finalResult, 'diabloTradeId'))
 
   // Close browser after timeout and cleanup
   await browser.close()
