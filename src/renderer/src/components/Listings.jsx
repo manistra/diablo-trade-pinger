@@ -1,6 +1,6 @@
 import { useContext, Fragment } from 'react'
 import DiabloTradePingerContext from '../context'
-
+import { formatNumber } from '../utils/formatNumber'
 const Listings = () => {
   const { listings, deleteListingById } = useContext(DiabloTradePingerContext)
 
@@ -11,8 +11,15 @@ const Listings = () => {
           key={index}
           className="p-6 bg-black bg-opacity-50 border border-diablo-bg  flex items-center flex-row justify-between"
         >
-          <div>
-            <h2 className="text-xl mb-2">{listing.equipmentType}:</h2>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-xl ">{listing.equipmentType}:</h2>
+
+            {listing.maxPrice > 0 && (
+              <p className="flex flex-row gap-2 text-xs">
+                Max b/o:
+                <span className="text-diablo">{formatNumber(listing.maxPrice)}</span>
+              </p>
+            )}
 
             <ul>
               {listing.affixes.map((affix, subIndex) => (
@@ -22,7 +29,9 @@ const Listings = () => {
                       <span className="h-1 w-1 rotate-45 border bg-white"></span>
 
                       <p>{affix.name}</p>
-                      <p className="font-exo text-xl text-diablo">{'>= ' + affix.minValue}</p>
+                      {affix.minValue > 0 && (
+                        <p className="font-exo text-xl text-diablo">{'>= ' + affix.minValue}</p>
+                      )}
                     </li>
                   )}
                 </Fragment>

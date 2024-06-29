@@ -14,6 +14,14 @@ const PingsTab = () => {
         <h1 className="font-exo uppercase text-4xl">Pings</h1>
 
         <div className="flex flex-row gap-5 items-center">
+          {isSnooping && (
+            <img
+              className="w-56 h-56 mb-16"
+              src="https://media2.giphy.com/media/Z8AjrStWlMS0WIQqKf/giphy.gif?cid=6c09b952b2x7rnpcvrsksopbkhvtv20xwy0d8qcp0me3zsz8&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
+              alt="enter image description here"
+            />
+          )}
+
           <button
             className="btn-secondary"
             onClick={() => {
@@ -23,7 +31,10 @@ const PingsTab = () => {
             Clear Pings
           </button>
           {isSnooping ? (
-            <CTAButton className="w-40 text-nowrap capitalize " onClick={() => stopSnooping()}>
+            <CTAButton
+              className="w-40 text-nowrap text-3xl uppercase font-bold"
+              onClick={() => stopSnooping()}
+            >
               Stop
             </CTAButton>
           ) : (

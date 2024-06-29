@@ -1,6 +1,6 @@
 {
-  "name": "diablo-trade-bumper",
-  "productName": "Diablo Trade Bumper",
+  "name": "diablo-trade-pinger",
+  "productName": "Diablo Trade Pinger",
   "version": "1.0.0",
   "description": "An Electron application with React",
   "main": "./out/main/index.js",

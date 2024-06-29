@@ -111,16 +111,20 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings, 
               const listedElement = tradeElement.querySelector('span')
               const listed = listedElement.textContent
 
-              itemsToPing.push({
-                diabloTradeId: tradeElement.id,
-                listing: listing,
-                item: {
-                  offerState: offerState,
-                  listedTime: listed,
-                  price: price,
-                  affixes: elementAffixes
-                }
-              })
+              if (
+                price.toLowerCase() == 'Make an Offer!' ||
+                Number(price.replace(/,/g, '')) <= Number(listing.maxPrice)
+              )
+                itemsToPing.push({
+                  diabloTradeId: tradeElement.id,
+                  listing: listing,
+                  item: {
+                    offerState: offerState,
+                    listedTime: listed,
+                    price: price,
+                    affixes: elementAffixes
+                  }
+                })
             }
           }
         })

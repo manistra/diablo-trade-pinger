@@ -14,6 +14,7 @@ const AddListing = ({ close }) => {
   const { hanldeAddListing } = useContext(DiabloTradePingerContext)
 
   const [equipmentType, setEquipmentType] = useState(null)
+  const [maxPrice, setMaxPrice] = useState(0)
   const [affixes, setAffixes] = useState([
     { name: '', minValue: 0 },
     { name: '', minValue: 0 },
@@ -37,6 +38,7 @@ const AddListing = ({ close }) => {
       hanldeAddListing({
         id: 'id' + Math.random().toString(16).slice(2),
         equipmentType: equipmentType,
+        maxPrice: maxPrice,
         affixes: affixes.filter((affix) => affix.name !== '')
       })
 
@@ -103,6 +105,14 @@ const AddListing = ({ close }) => {
               setValue={(value) => handleSetAffixMinValue(2, value)}
             />
           </div>
+
+          <Input
+            type="number"
+            label="Max Price"
+            className="self-start"
+            value={maxPrice}
+            setValue={(value) => setMaxPrice(value)}
+          />
         </>
       )}
 

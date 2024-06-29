@@ -2,6 +2,7 @@ import { useState } from 'react'
 import DiabloTradePingerContext from '.'
 import PropTypes from 'prop-types'
 const notifier = require('node-notifier')
+const path = require('path')
 
 const DiabloTradePingerContextProvider = ({ children }) => {
   // Add 'children' to props validation
@@ -40,6 +41,7 @@ const DiabloTradePingerContextProvider = ({ children }) => {
         title: 'Diablo Item Fond',
         message: 'New items found, come check them out!',
         sound: true,
+        icon: path.join(__dirname, '../assets/logo.png'),
         wait: true
       })
 

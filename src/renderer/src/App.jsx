@@ -7,7 +7,7 @@ import PingsTab from './components/PingsTab'
 import Settings from './components/Settings'
 
 function App() {
-  const { isAddListingOpen, isSnooping, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
+  const { isAddListingOpen, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
 
   return (
     <div className="h-[100vh] w-full flex flex-col items-start justify-start box-content">
@@ -19,14 +19,6 @@ function App() {
             <span>Trade Pinger</span>
           </div>
         </div>
-
-        {isSnooping && (
-          <img
-            className="w-56 h-56 -mb-10 -m-20 -mr-5"
-            src="https://media2.giphy.com/media/Z8AjrStWlMS0WIQqKf/giphy.gif?cid=6c09b952b2x7rnpcvrsksopbkhvtv20xwy0d8qcp0me3zsz8&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-            alt="enter image description here"
-          />
-        )}
 
         <Settings />
       </header>
