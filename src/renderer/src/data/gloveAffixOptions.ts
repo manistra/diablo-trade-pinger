@@ -1,6 +1,6 @@
 export const gloveAffixOptions = [
   { value: 'Maximum Life', label: 'Maximum Life' },
-  { value: 'Life per Hit', label: 'Life per Hit' },
+  { value: 'Life on Hit', label: 'Life per Hit' },
   { value: 'Attack Speed', label: 'Attack Speed' },
   { value: 'Critical Strike Chance', label: 'Critical Strike Chance' },
   { value: 'Critical Strike Damage', label: 'Critical Strike Damage' },

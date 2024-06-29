@@ -10,14 +10,12 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
-    headless: false
+    headless: true
   })
   const page = await browser.newPage()
 
-  for (let i = 1; i <= 5; i++) {
-    await page.goto(
-      `https://diablo.trade/listings/items?cursor=&equipment=gloves&group1=cc00787d7742177%7Cf94fe40d6c82dde%40greater&cursor=${i}`
-    )
+  for (let i = 1; i <= 15; i++) {
+    await page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`)
 
     await page.waitForSelector('#app-container', { visible: true, timeout: 0 })
 
@@ -77,7 +75,14 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
         listings.forEach((listing) => {
           let numberOfAffixes = 0
 
-          if (element.innerText.toLowerCase().includes(listing.equipmentType.toLowerCase())) {
+          if (
+            element.innerText
+              .toLowerCase()
+              .includes(
+                listing.equipmentType.toLowerCase() &&
+                  element.innerText.toLowerCase().includes('legendary')
+              )
+          ) {
             listing.affixes.forEach((affix) => {
               const affixNameLower = affix.name.toLowerCase()
 
@@ -102,7 +107,12 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
               (listing.affixes.length === 1 && numberOfAffixes === 1)
             ) {
               const childElement = element.querySelector('.backdrop-blur')
-              itemsToPing.push({ ...listing, diabloTradeId: childElement.id })
+
+              itemsToPing.push({
+                ...listing,
+                diabloTradeId: childElement.id,
+                details: element.innerText
+              })
             }
           }
         })
@@ -114,7 +124,7 @@ export const snoopForItems = async ({ executablePath, handleAddPings, listings }
     const uniqueItems = result.filter((item) => !existingIds.includes(item.diabloTradeId))
     finalResult = [...finalResult, ...uniqueItems]
 
-    await setTimeout(1000)
+    await setTimeout(300)
   }
 
   handleAddPings(finalResult)

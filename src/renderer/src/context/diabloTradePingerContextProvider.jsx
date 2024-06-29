@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DiabloTradePingerContext from '.'
 import PropTypes from 'prop-types'
+const notifier = require('node-notifier')
 
 const DiabloTradePingerContextProvider = ({ children }) => {
   // Add 'children' to props validation
@@ -24,14 +25,31 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   }
 
   const handleAddPings = (incomingPings) => {
-    const existingIds = pings.map((item) => item.diabloTradeId)
+    const existingPingsLocalStorage = localStorage.getItem('pings')
+    const existingPings = existingPingsLocalStorage ? JSON.parse(existingPingsLocalStorage) : []
+
+    const existingIds = existingPings.map((item) => item.diabloTradeId)
+
     const newNonDuplicatePings = incomingPings.filter(
       (item) => !existingIds.includes(item.diabloTradeId)
     )
 
-    const newPings = [...pings, ...newNonDuplicatePings]
+    if (newNonDuplicatePings.length > 0)
+      notifier.notify({
+        title: 'Diablo Item Fond',
+        message: 'New items found, come check them out!',
+        sound: true,
+        wait: true
+      })
+
+    const newPings = [...newNonDuplicatePings, ...existingPings]
     setPings(newPings)
     localStorage.setItem('pings', JSON.stringify(newPings))
+  }
+
+  const deleteAllPings = () => {
+    localStorage.removeItem('pings')
+    setPings([])
   }
 
   const hanldeAddListing = (listing) => {
@@ -43,10 +61,6 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   const deleteAllListings = () => {
     localStorage.removeItem('listings')
     setListings([])
-  }
-  const deleteAllPings = () => {
-    localStorage.removeItem('pings')
-    setPings([])
   }
 
   const deleteListingById = (id) => {

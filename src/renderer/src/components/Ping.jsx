@@ -9,15 +9,14 @@ const Ping = ({ key, ping }) => {
     <a
       href={`https://diablo.trade/listings/items/${ping.diabloTradeId}`}
       key={key}
-      className="bg-diablo-bg p-6 rounded border bg-opacity-85 border-diablo-dark flex items-center flex-row justify-between item-bg w-[274px] h-[290px]"
+      className=" flex items-center flex-col w-[274px]"
       onClick={(e) => {
         e.preventDefault()
         openInBrowser(e.currentTarget.href)
       }}
     >
-      <div>
+      <div className="bg-black bg-opacity-30 border border-diablo border-b-0 rounded p-3 w-full">
         <h2 className="font-exo text-xl text-diablo mb-2">{ping.equipmentType}</h2>
-
         <ul>
           {ping.affixes.map((affix, subIndex) => (
             <Fragment key={`${key}-${subIndex}`}>
@@ -46,22 +45,27 @@ const Ping = ({ key, ping }) => {
           ))}
         </ul>
       </div>
+
+      <div className="text-xs whitespace-pre-line break-words item-bg w-full h-[379px] p-7">
+        {ping.details}
+      </div>
     </a>
   )
 }
 
 Ping.propTypes = {
-  key: PropTypes.number.isRequired,
+  key: PropTypes.number,
   ping: PropTypes.shape({
-    diabloTradeId: PropTypes.string.isRequired,
-    equipmentType: PropTypes.string.isRequired,
+    diabloTradeId: PropTypes.string,
+    equipmentType: PropTypes.string,
+    details: PropTypes.string,
     affixes: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
         minValue: PropTypes.number
       })
     )
-  }).isRequired
+  })
 }
 
 export default Ping
