@@ -11,6 +11,8 @@ jobs:
           node-version: 20
       - name: install dependencies
         run: npm install
+      - name: build/vite
+        run: npm run build
       - name: build
         run: npm run make
 
@@ -23,6 +25,8 @@ jobs:
           node-version: 20
       - name: install dependencies
         run: npm install
+      - name: build/vite
+        run: npm run build
       - name: build
         run: npm run make
 
@@ -35,5 +39,7 @@ jobs:
           node-version: 20
       - name: install dependencies
         run: npm install
+      - name: build/vite
+        run: npm run build
       - name: build
         run: npm run make
