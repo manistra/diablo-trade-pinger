@@ -43,7 +43,7 @@ module.exports = {
   ],
   publishers: [
     {
-      name: '@electron-forge/publisher-github',
+      name: '@manistra/diablo-trade-pinger',
       config: {
         repository: {
           owner: 'manistra',
