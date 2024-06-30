@@ -9,6 +9,8 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 16
+      - name: install rollup
+        run: npm install -D @rollup/rollup-linux-x64-gnu
       - name: install dependencies
         run: npm install
       - name: build/vite
@@ -23,6 +25,8 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 16
+      - name: install rollup
+        run: npm install -D @rollup/rollup-darwin-arm64
       - name: install dependencies
         run: npm install
       - name: build/vite
