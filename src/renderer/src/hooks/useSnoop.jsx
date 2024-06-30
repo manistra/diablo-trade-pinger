@@ -13,7 +13,7 @@ const useSnoop = () => {
     listings,
     showBrowser,
     pagesPerRun,
-
+    setCurrentPage,
     runInterval
   } = useContext(DiabloTradePingerContext)
 
@@ -23,7 +23,8 @@ const useSnoop = () => {
       handleAddPings: handleAddPings,
       listings: listings,
       showBrowser: showBrowser,
-      pagesPerRun: pagesPerRun
+      pagesPerRun: pagesPerRun,
+      setCurrentPage: (value) => setCurrentPage(value)
     })
   }
 

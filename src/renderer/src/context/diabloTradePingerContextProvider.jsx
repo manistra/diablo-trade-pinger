@@ -23,6 +23,7 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   const [listings, setListings] = useState(existingListings ? JSON.parse(existingListings) : [])
   const [pings, setPings] = useState(existingPings ? JSON.parse(existingPings) : [])
   const [executablePath, setExecutablePath] = useState(executablePathLocalStorage)
+  const [currentPage, setCurrentPage] = useState(0)
 
   const handleSetExecutablePath = (value) => {
     setExecutablePath(value)
@@ -99,6 +100,9 @@ const DiabloTradePingerContextProvider = ({ children }) => {
 
         isAddListingOpen,
         setIsAddListingOpen,
+
+        currentPage,
+        setCurrentPage,
 
         pagesPerRun,
         handleSetPagesPerRun,

@@ -5,23 +5,34 @@ import Ping from './Ping'
 import CTAButton from './CTAButton'
 
 const PingsTab = () => {
-  const { deleteAllPings, isSnooping, pings } = useContext(DiabloTradePingerContext)
+  const { deleteAllPings, isSnooping, pings, currentPage, pagesPerRun } =
+    useContext(DiabloTradePingerContext)
   const { startSnooping, stopSnooping } = useSnoop()
+
+  const getLoadingBarWidth = () => {
+    const width = (Number(currentPage) / Number(pagesPerRun)) * 100
+    return `${width}%`
+  }
 
   return (
     <div className="w-2/3 border-diablo-dark border rounded-xl p-6 backdrop-blur bg-black bg-opacity-10">
       <div className="w-full flex flex-row border-diablo-dark justify-between border-b pb-6 items-center h-20">
         <h1 className="font-exo uppercase text-4xl">Pings</h1>
 
-        <div className="flex flex-row gap-5 items-center">
-          {isSnooping && (
-            <img
-              className="w-56 h-56 mb-16"
-              src="https://media2.giphy.com/media/Z8AjrStWlMS0WIQqKf/giphy.gif?cid=6c09b952b2x7rnpcvrsksopbkhvtv20xwy0d8qcp0me3zsz8&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=s"
-              alt="enter image description here"
-            />
-          )}
+        {isSnooping && (
+          <div className="w-[400px] h-[15px] border border-diablo-bg">
+            <div
+              className="h-full bg-gradient-to-r from-red-900 to-diablo transition-all duration-500 shadow-orange-900 shadow-lg ease-out flex items-center justify-center"
+              style={{ width: getLoadingBarWidth() }}
+            >
+              {Number(currentPage) === Number(pagesPerRun) && (
+                <p className="text-black text-[10px] font-bold uppercase">Waiting for next run</p>
+              )}
+            </div>
+          </div>
+        )}
 
+        <div className="flex flex-row gap-5 items-center">
           <button
             className="btn-secondary"
             onClick={() => {
