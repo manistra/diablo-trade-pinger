@@ -136,6 +136,7 @@ export const snoopForItems = async ({
                 itemsToPing.push({
                   diabloTradeId: tradeElement.id,
                   listing: listing,
+                  createdAt: new Date().toISOString(),
                   item: {
                     offerState: offerState,
                     listedTime: listed,

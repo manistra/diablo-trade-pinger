@@ -1,10 +1,23 @@
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useState, useEffect } from 'react'
 import DiabloTradePingerContext from '../context'
 import PropTypes from 'prop-types'
 import ga from '../assets/ga.png'
+import { getTimeDifferenceText } from '../utils/getTimeDifferenceText'
+
 const Ping = ({ ping }) => {
   const { deletePingById } = useContext(DiabloTradePingerContext)
   const [isClicked, setIsClicked] = useState(false)
+  const [timeText, setTimeText] = useState('')
+
+  const updateText = (text) => {
+    setTimeText(getTimeDifferenceText(text))
+  }
+
+  useEffect(() => {
+    updateText(ping.createdAt)
+    const intervalId = setInterval(updateText, 60000)
+    return () => clearInterval(intervalId)
+  }, [ping.createdAt])
 
   const openInBrowser = (url) => {
     window.open(url, '_blank')
@@ -93,7 +106,7 @@ const Ping = ({ ping }) => {
         >
           <span className="uppercase text-sm text-gray-400">{ping.item.offerState}</span>
           <span className="text-diablo-yellow text-lg">{ping.item.price}</span>
-          <span className="text-gray-600 text-xs">Click to check out item</span>
+          <span className="text-gray-600 text-xs">{timeText}</span>
         </a>
       </div>
     </div>
@@ -103,6 +116,7 @@ const Ping = ({ ping }) => {
 Ping.propTypes = {
   ping: PropTypes.shape({
     diabloTradeId: PropTypes.string,
+    createdAt: PropTypes.string,
     listing: PropTypes.shape({
       equipmentType: PropTypes.string,
       affixes: PropTypes.arrayOf(

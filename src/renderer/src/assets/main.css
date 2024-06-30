@@ -6,10 +6,10 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-diablo text-diablo-bg font-bold uppercase px-3 py-2 opacity-80 hover:opacity-100 text-nowrap;
+    @apply bg-diablo rounded-sm text-diablo-bg font-bold uppercase px-3 py-2 opacity-80 hover:opacity-100 text-nowrap font-bold;
   }
   .btn-secondary {
-    @apply border-diablo text-diablo border px-3 py-2 opacity-70 hover:opacity-100 text-nowrap;
+    @apply border-diablo rounded-sm text-diablo border px-3 py-2 opacity-70 hover:opacity-100 text-nowrap;
   }
   .glow-shadow {
     filter: drop-shadow(0 0 1.2em #f28303);

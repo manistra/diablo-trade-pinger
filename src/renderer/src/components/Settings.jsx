@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import DiabloTradePingerContext from '../context'
 import Input from './form/Input'
+var electron = require('electron')
 
 const Settings = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -18,22 +19,22 @@ const Settings = () => {
   return (
     <>
       {settingsOpen ? (
-        <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative">
+        <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative backdrop-blur bg-black bg-opacity-10">
           <Input
             label="Set how many pages to cover per run"
             value={pagesPerRun || 10}
             setValue={handleSetPagesPerRun}
             type="number"
-            min={0}
-            max={30}
+            min={1}
+            max={10}
             className="bg-diablo-bg rounded-none text-diablo"
           />
 
           <Input
             label="Set run interval in seconds"
             type="number"
-            min={10}
-            max={600}
+            min={30}
+            max={6000}
             value={runInterval || 30}
             setValue={handleSetRunInterval}
             className="bg-diablo-bg rounded-none text-diablo"
@@ -71,21 +72,21 @@ const Settings = () => {
               viewBox="0 0 24 24"
               strokeWidth="5"
               stroke="currentColor"
-              className="size-6  group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:text-diablo transition text-diablo-dark cursor-pointer"
+              className="size-6 group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:opacity-100 opacity-80 transition text-diablo cursor-pointer"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
       ) : (
-        <button className="group" onClick={() => setSettingsOpen(true)}>
+        <button className="group self-start -mr-2" onClick={() => setSettingsOpen(true)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="2"
             stroke="currentColor"
-            className="size-10 text-diablo group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:opacity-100 transition cursor-pointer opacity-55"
+            className="size-7 group-hover:scale-110 group-hover:rotate-90 duration-300 transition cursor-pointer group-hover:opacity-100 opacity-70 text-diablo"
           >
             <path
               strokeLinecap="round"

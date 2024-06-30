@@ -9,7 +9,7 @@ const CTAButton = ({ className, children, ...otherProps }) => {
     >
       <img alt="btn" src={btn} />
 
-      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-base">
+      <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-exo uppercase text-nowrap text-xl">
         {children}
       </span>
     </button>

@@ -3,6 +3,7 @@ import DiabloTradePingerContext from '.'
 import PropTypes from 'prop-types'
 const notifier = require('node-notifier')
 const path = require('path')
+const { ipcRenderer } = require('electron')
 
 const DiabloTradePingerContextProvider = ({ children }) => {
   // Add 'children' to props validation
@@ -48,6 +49,10 @@ const DiabloTradePingerContextProvider = ({ children }) => {
         icon: path.join(__dirname, '../assets/logo.png'),
         wait: true
       })
+
+    notifier.on('click', () => {
+      ipcRenderer.send('focus-window')
+    })
 
     const newPings = [...newNonDuplicatePings, ...existingPings]
     setPings(newPings)

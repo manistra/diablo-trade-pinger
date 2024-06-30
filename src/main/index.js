@@ -38,6 +38,20 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  ipcMain.on('focus-window', () => {
+    if (mainWindow) {
+      mainWindow.setAlwaysOnTop(true)
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus({
+        steal: true
+      })
+      mainWindow.show()
+      mainWindow.setAlwaysOnTop(false)
+    } else {
+      createWindow()
+    }
+  })
 }
 
 // This method will be called when Electron has finished
