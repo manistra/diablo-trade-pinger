@@ -44,7 +44,6 @@
     "@electron-toolkit/eslint-config": "^1.0.2",
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron/fuses": "^1.8.0",
-    "@rollup/rollup-darwin-arm64": "^4.18.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "electron": "^28.2.0",
