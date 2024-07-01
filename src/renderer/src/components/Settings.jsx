@@ -1,39 +1,38 @@
 import { useContext, useState } from 'react'
 import DiabloTradePingerContext from '../context'
 import Input from './form/Input'
-var electron = require('electron')
 
 const Settings = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const {
     executablePath,
     handleSetExecutablePath,
-    showBrowser,
-    setShowBrowser,
     pagesPerRun,
     handleSetPagesPerRun,
     runInterval,
     handleSetRunInterval
+    // showBrowser,
+    // setShowBrowser
   } = useContext(DiabloTradePingerContext)
 
   return (
     <>
       {settingsOpen ? (
-        <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative backdrop-blur bg-black bg-opacity-10">
+        <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative bg-black-blur">
           <Input
-            label="Set how many pages to cover per run"
+            label="Listing Pages per run"
             value={pagesPerRun || 10}
             setValue={handleSetPagesPerRun}
             type="number"
             min={1}
-            max={10}
+            max={6}
             className="bg-diablo-bg rounded-none text-diablo"
           />
 
           <Input
             label="Set run interval in seconds"
             type="number"
-            min={30}
+            min={40}
             max={6000}
             value={runInterval || 30}
             setValue={handleSetRunInterval}
@@ -48,7 +47,7 @@ const Settings = () => {
             className="bg-diablo-bg rounded-none text-diablo"
           />
 
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="text-sm text-diablo mb-2">Show Browser While Snooping</label>
 
             <input
@@ -60,7 +59,7 @@ const Settings = () => {
               id="flexSwitchCheckDefault02"
               defaultChecked
             />
-          </div>
+          </div> */}
 
           <button
             className="group absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 p-1"

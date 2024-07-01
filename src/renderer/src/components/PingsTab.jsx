@@ -6,9 +6,9 @@ import CTAButton from './CTAButton'
 
 const PingsTab = () => {
   const [runCount, setRunCount] = useState(1)
-  const { deleteAllPings, isSnooping, pings, currentPage, pagesPerRun } =
+  const { deleteAllPings, isSnooping, pings, currentPage, pagesPerRun, listings } =
     useContext(DiabloTradePingerContext)
-  const { startSnooping, stopSnooping } = useSnoop()
+  const { startSnooping, stopSnooping, ongoingSnoops, timeLeft } = useSnoop()
 
   const getLoadingBarWidth = () => {
     const width = (Number(currentPage) / Number(pagesPerRun)) * 100
@@ -21,35 +21,40 @@ const PingsTab = () => {
   }, [currentPage, pagesPerRun, isSnooping])
 
   return (
-    <div className="w-2/3 border-diablo-dark border rounded p-6 backdrop-blur bg-black bg-opacity-10">
+    <div className="w-2/3 border-diablo-dark border rounded p-6 bg-black-blur">
       <div className="w-full flex flex-row border-diablo-dark justify-between border-b pb-6 items-center h-20">
         <h1 className="font-exo uppercase text-4xl">Pings</h1>
 
-        {isSnooping && (
+        {(isSnooping || !!ongoingSnoops.length) && (
           <div>
-            <div className="flex flex-row gap-5 items-center text-[10px] justify-center text-diablo">
-              <span>
+            <div className="flex flex-row gap-3 items-center text-[10px] text-diablo mb-[2px]">
+              <p>
                 <span className="text-gray-500">Runs:</span> {runCount}
-              </span>
-              <span>
-                <span className="text-gray-500">Listings Page:</span> [{currentPage}/{pagesPerRun}]
-              </span>
+              </p>
+
+              <p>
+                <span className="text-gray-500">Listing Page:</span> [{currentPage}/{pagesPerRun}]
+              </p>
+
+              {Number(currentPage) === Number(pagesPerRun) && timeLeft && (
+                <p className="flex flex-row items-center text-[10px] justify-center text-diablo">
+                  <span className="text-gray-500">Seconds until next run: </span>
+                  {timeLeft}
+                </p>
+              )}
             </div>
-            <div className="w-[400px] h-[15px] border border-diablo-bg">
+            <div className="w-[400px] h-[15px] border border-diablo-dark">
               <div
                 className="h-full bg-gradient-to-r from-red-900 to-diablo transition-all duration-500 shadow-orange-900 shadow-lg ease-out flex items-center justify-center"
                 style={{ width: getLoadingBarWidth() }}
-              >
-                {Number(currentPage) === Number(pagesPerRun) && (
-                  <p className="text-black text-[10px] font-bold uppercase">Waiting for next run</p>
-                )}
-              </div>
+              ></div>
             </div>
           </div>
         )}
 
         <div className="flex flex-row gap-5 items-center">
           <button
+            disabled={pings.length < 1}
             className="btn-secondary"
             onClick={() => {
               if (confirm('Are you sure you want to delete all pings?')) deleteAllPings()
@@ -57,12 +62,20 @@ const PingsTab = () => {
           >
             Clear Pings
           </button>
-          {isSnooping ? (
-            <CTAButton className="w-40" onClick={() => stopSnooping()}>
-              Stop
+          {isSnooping || !!ongoingSnoops.length ? (
+            <CTAButton
+              className="w-40"
+              onClick={() => stopSnooping()}
+              disabled={!isSnooping && !!ongoingSnoops.length}
+            >
+              {!isSnooping && !!ongoingSnoops.length ? 'Stopping' : 'Stop'}
             </CTAButton>
           ) : (
-            <CTAButton disabled={isSnooping} className="w-40" onClick={() => startSnooping()}>
+            <CTAButton
+              disabled={isSnooping || listings.length < 1}
+              className="w-40"
+              onClick={() => startSnooping()}
+            >
               Start
             </CTAButton>
           )}

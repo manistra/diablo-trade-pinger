@@ -7,7 +7,7 @@ import { getTimeDifferenceText } from '../utils/getTimeDifferenceText'
 const Ping = ({ ping }) => {
   const { deletePingById } = useContext(DiabloTradePingerContext)
   const [isClicked, setIsClicked] = useState(false)
-  const [timeText, setTimeText] = useState('')
+  const [timeText, setTimeText] = useState(getTimeDifferenceText(ping.createdAt))
 
   const updateText = (text) => {
     setTimeText(getTimeDifferenceText(text))
