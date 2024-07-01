@@ -52,7 +52,7 @@ Contributions are welcome! If you would like to contribute to Diablo IV Trade Pi
 5. Push to the branch (`git push origin feature/awesome-feature`).
 6. Create a new Pull Request.
 
-Please ensure your code adheres to the existing code style and includes appropriate tests.
+Please ensure your code adheres to the existing code style.
 
 ## Donations
 If you would like to donate you can hit the button bellow and buy me a coffee. 
