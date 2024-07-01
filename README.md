@@ -5,7 +5,7 @@
   </a>
 </p>
 
-##### Diablo IV Trade Pinger is a desktop application built with Electron-Vite and React. It notifies users when new items matching specified affixes are listed on the [diablo.trade](https://diablo.trade) website, allowing Diablo IV players to stay updated on relevant trade listings.
+Diablo IV Trade Pinger is a desktop application built with Electron-Vite and React. It notifies users when new items matching specified affixes are listed on the [diablo.trade](https://diablo.trade) website, allowing Diablo IV players to stay updated on relevant trade listings.
 
 <p align="center">
   <a href="https://github.com/manistra/diablo-trade-pinger/releases/download/v1.2.1/Diablo.Trade.Pinger-1.2.1.Setup.exe" style="text-decoration: none;">
