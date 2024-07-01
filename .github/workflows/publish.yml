@@ -4,25 +4,6 @@ on:
     tags:
       - 'v*'
 
-jobs:
-  publish_on_mac:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
-        with:
-          node-version: 20
-      - name: install rollup
-        run: npm install -D @rollup/rollup-darwin-arm64
-      - name: install dependencies
-        run: npm install
-      - name: build/vite
-        run: npm run build
-      - name: publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
-
   publish_on_win:
     runs-on: windows-latest
     steps:

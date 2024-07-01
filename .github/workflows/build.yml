@@ -2,22 +2,6 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build_on_mac:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@master
-        with:
-          node-version: 20
-      - name: install rollup
-        run: npm install -D @rollup/rollup-darwin-arm64
-      - name: install dependencies
-        run: npm install
-      - name: build/vite
-        run: npm run build
-      - name: build
-        run: npm run make
-
   build_on_win:
     runs-on: windows-latest
     steps:

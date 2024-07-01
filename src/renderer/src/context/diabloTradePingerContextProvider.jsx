@@ -48,7 +48,7 @@ const DiabloTradePingerContextProvider = ({ children }) => {
         title: `${newNonDuplicatePings.length} New Items Found!`,
         message: 'Items found, come check them out!',
         sound: true,
-        icon: path.join(__dirname, '../assets/logo.png'),
+        icon: path.join(__dirname, '../../resources/icon.ico'),
         wait: true
       })
 
