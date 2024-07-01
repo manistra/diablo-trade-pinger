@@ -24,7 +24,7 @@ const Ping = ({ ping }) => {
   }
   return (
     <div
-      className="flex items-center flex-col  w-[274px] h-[450px] border border-diablo-bg"
+      className="flex items-center flex-col w-[274px] h-[450px] border border-diablo-bg"
       style={{ opacity: isClicked ? '60%' : '100%' }}
     >
       <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll scrollbar relative">
@@ -96,7 +96,7 @@ const Ping = ({ ping }) => {
         </div>
 
         <a
-          className="flex flex-col items-center bg-black bg-opacity-40 p-5 border-diablo-bg border-t hover:border-diablo hover:border hover:scale-[101%] transition duration-500"
+          className={`flex flex-col items-center bg-black bg-opacity-40 p-5 border-diablo-bg border-t hover:bg-opacity-60 ease-linear transition duration-800${timeText.includes('Less than') && ' glow'}`}
           href={`https://diablo.trade/listings/items/${ping.diabloTradeId}`}
           onClick={(e) => {
             setIsClicked(true)

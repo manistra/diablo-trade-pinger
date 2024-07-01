@@ -10,7 +10,8 @@ const Settings = () => {
     pagesPerRun,
     handleSetPagesPerRun,
     runInterval,
-    handleSetRunInterval
+    handleSetRunInterval,
+    isSnooping
     // showBrowser,
     // setShowBrowser
   } = useContext(DiabloTradePingerContext)
@@ -20,7 +21,8 @@ const Settings = () => {
       {settingsOpen ? (
         <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative bg-black-blur">
           <Input
-            label="Pages per Run"
+            disabled={isSnooping}
+            label="Pages per Run (max 6)"
             value={pagesPerRun || 4}
             setValue={handleSetPagesPerRun}
             type="number"
@@ -30,7 +32,8 @@ const Settings = () => {
           />
 
           <Input
-            label="Run Interval in seconds"
+            disabled={isSnooping}
+            label="Run Interval in seconds (min 45)"
             type="number"
             min={45}
             max={6000}
@@ -40,6 +43,7 @@ const Settings = () => {
           />
 
           <Input
+            disabled={isSnooping}
             label="Browser Path"
             value={executablePath || ''}
             setValue={handleSetExecutablePath}

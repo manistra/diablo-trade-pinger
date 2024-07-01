@@ -76,3 +76,42 @@ body {
     background-color: '#613e16';
   }
 }
+.glow {
+  position: relative;
+  border-radius: 4px;
+  transform-style: preserve-3d;
+}
+.glow::before {
+  content: '';
+  position: absolute;
+  inset: 0px;
+  background: conic-gradient(
+    from 90deg at 40% -25%,
+    #ffd700,
+    #f79d03,
+    #ee6907,
+    #e6390a,
+    #de0d0d,
+    #ee6907,
+    #f79d03,
+    #ffd700,
+    #ffd700,
+    #ffd700
+  );
+  filter: blur(4px);
+  transform: translate3d(0px, 0px, -1px);
+  clip-path: polygon(
+    -100vmax -100vmax,
+    100vmax -100vmax,
+    100vmax 100vmax,
+    -100vmax 100vmax,
+    -100vmax -100vmax,
+    calc(0px - 0px) calc(0px - 0px),
+    calc(0px - 0px) calc(100% - 0px - 0px),
+    calc(100% - 0px - 0px) calc(100% - 0px - 0px),
+    calc(100% - 0px - 0px) calc(0px - 0px),
+    calc(0px - 0px) calc(0px - 0px)
+  );
+  pointer-events: none;
+  border-radius: 4px;
+}

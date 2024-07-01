@@ -5,6 +5,10 @@ const notifier = require('node-notifier')
 const path = require('path')
 const { ipcRenderer } = require('electron')
 
+notifier.on('click', () => {
+  ipcRenderer.send('focus-window')
+})
+
 const DiabloTradePingerContextProvider = ({ children }) => {
   // Add 'children' to props validation
   DiabloTradePingerContextProvider.propTypes = {
@@ -48,13 +52,9 @@ const DiabloTradePingerContextProvider = ({ children }) => {
         title: `${newNonDuplicatePings.length} New Items Found!`,
         message: 'Items found, come check them out!',
         sound: true,
-        icon: path.join(__dirname, '../../resources/icon.ico'),
+        contentImage: path.join(__dirname, '../../resources/icon.ico'),
         wait: true
       })
-
-    notifier.on('click', () => {
-      ipcRenderer.send('focus-window')
-    })
 
     const newPings = [...newNonDuplicatePings, ...existingPings]
     setPings(newPings)
@@ -91,10 +91,13 @@ const DiabloTradePingerContextProvider = ({ children }) => {
     localStorage.setItem('listings', JSON.stringify(listingsCopy))
   }
   const handleSetRunInterval = (value) => {
+    if (value < 45) value = 45
+
     setRunInterval(value)
     localStorage.setItem('run-interval', JSON.stringify(value))
   }
   const handleSetPagesPerRun = (value) => {
+    if (value > 6) value = 6
     setPagesPerRun(value)
     localStorage.setItem('pages-per-run', JSON.stringify(value))
   }

@@ -6,13 +6,28 @@ import CTAButton from './CTAButton'
 
 const PingsTab = () => {
   const [runCount, setRunCount] = useState(1)
-  const { deleteAllPings, isSnooping, pings, currentPage, pagesPerRun, listings } =
+  const [startButtonDisabledTime, setStartButtonDisabledTime] = useState(null)
+  const { deleteAllPings, isSnooping, pings, currentPage, runInterval, pagesPerRun, listings } =
     useContext(DiabloTradePingerContext)
   const { startSnooping, stopSnooping, ongoingSnoops, timeLeft } = useSnoop()
 
   const getLoadingBarWidth = () => {
     const width = (Number(currentPage) / Number(pagesPerRun)) * 100
     return `${width}%`
+  }
+
+  const handleStartSnooping = () => {
+    setStartButtonDisabledTime(Number(runInterval))
+    startSnooping()
+
+    const countdownInterval = setInterval(() => {
+      setStartButtonDisabledTime((prevTimeLeft) => prevTimeLeft - 1)
+    }, 1000)
+
+    setTimeout(() => {
+      clearInterval(countdownInterval)
+      setStartButtonDisabledTime(null)
+    }, runInterval * 1000)
   }
 
   useEffect(() => {
@@ -71,18 +86,26 @@ const PingsTab = () => {
               {!isSnooping && !!ongoingSnoops.length ? 'Stopping' : 'Stop'}
             </CTAButton>
           ) : (
-            <CTAButton
-              disabled={isSnooping || listings.length < 1}
-              className="w-40"
-              onClick={() => startSnooping()}
-            >
-              Start
-            </CTAButton>
+            <div className="relative">
+              <CTAButton
+                disabled={isSnooping || listings.length < 1 || !!startButtonDisabledTime}
+                className="w-40"
+                onClick={handleStartSnooping}
+              >
+                Start
+              </CTAButton>
+
+              {startButtonDisabledTime && (
+                <p className="absolute bottom-0 left-0 translate-y-full text-xs text-diablo-dark">
+                  Please wait {startButtonDisabledTime} more seconds
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5 overflow-y-scroll scrollbar h-[88%] py-6">
+      <div className="flex flex-wrap gap-5 overflow-y-scroll scrollbar h-[88%] py-6 p-1">
         {pings.map((ping) => (
           <Ping ping={ping} key={ping.diabloTradeId} />
         ))}

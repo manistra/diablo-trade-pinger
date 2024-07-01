@@ -153,7 +153,7 @@ export const snoopForItems = async ({
     }, listings)
     finalResult = [...finalResult, ...result]
 
-    await setTimeout(1000)
+    await setTimeout(450)
   }
 
   handleAddPings(removeDuplicates(finalResult, 'diabloTradeId'))
