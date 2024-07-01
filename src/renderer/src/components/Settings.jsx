@@ -20,7 +20,7 @@ const Settings = () => {
       {settingsOpen ? (
         <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative bg-black-blur">
           <Input
-            label="Listing Pages per run"
+            label="Listing Pages"
             value={pagesPerRun || 10}
             setValue={handleSetPagesPerRun}
             type="number"
