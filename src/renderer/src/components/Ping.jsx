@@ -15,7 +15,7 @@ const Ping = ({ ping }) => {
 
   useEffect(() => {
     updateText(ping.createdAt)
-    const intervalId = setInterval(updateText, 60000)
+    const intervalId = setInterval(() => updateText(ping.createdAt), 60000)
     return () => clearInterval(intervalId)
   }, [ping.createdAt])
 
