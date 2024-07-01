@@ -2,7 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.ico'
-require('update-electron-app')()
+const { updateElectronApp } = require('update-electron-app')
+
+updateElectronApp()
 
 function createWindow() {
   // Create the browser window.

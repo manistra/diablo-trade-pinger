@@ -6,6 +6,10 @@
   "main": "./dist/main/index.js",
   "author": "TocnoSanZna",
   "homepage": "https://electron-vite.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manistra/diablo-trade-pinger.git"
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
