@@ -13,6 +13,11 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
   </a>
 </p>
 
+## Prerequisites
+
+If the loading bar fails to move after clicking 'Start', it is likely that the browser path has not been properly configured in the settings. For detailed instructions, click on the information button located at the bottom left corner of the application.
+
+
 ## Limitations
 - Currently supports only Season Softcore, but other realms will be included soon. Totally forgot about this lol 🤣
 
