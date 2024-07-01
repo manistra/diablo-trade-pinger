@@ -13,9 +13,8 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
   </a>
 </p>
 
-## Prerequisites
-
-If the loading bar fails to move after clicking 'Start', it is likely that the browser path has not been properly configured in the settings. For detailed instructions, click on the information button located at the bottom left corner of the application.
+> [!NOTE]
+> If the loading bar does not move after clicking 'Start', it's likely due to an unset browser path in the application settings. To resolve this issue, navigate to the settings section of the application, set the correct browser path as per your system configuration, and save the settings. For further assistance, refer to the information button located at the bottom left corner of the application interface.
 
 
 ## Limitations
