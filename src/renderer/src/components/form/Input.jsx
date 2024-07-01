@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 const Input = ({ value, label, setValue, className, ...otherProps }) => {
   return (
-    <div className="flex flex-col gap-2 min-w-52">
+    <div className="flex flex-col gap-2">
       <label className="text-sm text-diablo">{label}</label>
 
       <input
