@@ -36,6 +36,11 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
 
    View and manage your notifications and saved filters through the desktop application interface.
 
+## Issues and Feedback
+
+This is the first version of the application, and while every effort has been made to ensure its functionality, there may still be bugs or unexpected behavior. Feel free to create an issue on [GitHub](https://github.com/manistra/diablo-trade-pinger/issues) if you encounter any problems or have suggestions for improvement.
+
+
 ## Contributing
 
 Contributions are welcome! If you would like to contribute to Diablo IV Trade Pinger, follow these steps:
