@@ -13,6 +13,9 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
   </a>
 </p>
 
+## Limitations
+- Currently supports only Season Softcore, but other realms will be included soon. Totally forgot about this lol 🤣
+
 ## Features
 
 - **Real-time Notifications**: Receive instant notifications when new items meeting your criteria are listed.
