@@ -21,20 +21,20 @@ const Settings = () => {
         <div className="flex flex-row gap-10 border-diablo-dark border rounded px-7 py-4 relative bg-black-blur">
           <Input
             label="Pages per Run"
-            value={pagesPerRun || 10}
+            value={pagesPerRun || 4}
             setValue={handleSetPagesPerRun}
             type="number"
             min={1}
-            max={6}
+            max={5}
             className="bg-diablo-bg rounded-none text-diablo"
           />
 
           <Input
             label="Run Interval in seconds"
             type="number"
-            min={40}
+            min={45}
             max={6000}
-            value={runInterval || 30}
+            value={runInterval || 60}
             setValue={handleSetRunInterval}
             className="bg-diablo-bg rounded-none text-diablo"
           />

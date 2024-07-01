@@ -20,8 +20,8 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   const [isSnooping, setIsSnooping] = useState(false)
   const [showBrowser, setShowBrowser] = useState(false)
 
-  const [pagesPerRun, setPagesPerRun] = useState(Number(exisingPagesPerRun) || 5)
-  const [runInterval, setRunInterval] = useState(Number(exisingRunInterval) || 45)
+  const [pagesPerRun, setPagesPerRun] = useState(Number(exisingPagesPerRun) || 4)
+  const [runInterval, setRunInterval] = useState(Number(exisingRunInterval) || 60)
 
   const [listings, setListings] = useState(existingListings ? JSON.parse(existingListings) : [])
   const [pings, setPings] = useState(existingPings ? JSON.parse(existingPings) : [])

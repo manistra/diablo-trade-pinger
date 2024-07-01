@@ -49,7 +49,7 @@ const Ping = ({ ping }) => {
           {ping.listing.affixes.map((affix, index) => (
             <Fragment key={index}>
               {!!affix?.name && (
-                <li className="flex flex-row gap-3 items-center pl-4 text-xs">
+                <li className="flex flex-row gap-3 items-center pl-4 text-xs capitalize">
                   <span className="h-1 w-1 rotate-45 border bg-white"></span>
                   <p>{affix.name}</p>
                   <p className="font-exo text-diablo"> {'>= ' + affix.minValue}</p>
@@ -78,7 +78,7 @@ const Ping = ({ ping }) => {
 
           <hr className="border-diablo-dark" />
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 capitalize text-[11px]">
             {ping.item.affixes.map((affix, subIndex) => (
               <div key={subIndex} className="flex flex-row items-center gap-2">
                 <div className="w-5 -ml-4 flex items-center justify-center">
