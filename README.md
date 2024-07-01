@@ -19,7 +19,7 @@
 - **Customizable Affix Filters**: Specify affixes and attributes that you are interested in for specific item searches.
 - **User Interface**: Intuitive desktop interface designed for quick setup and efficient monitoring of trade listings.
 - **Runs as Desktop App**: Requires the application to be open and running to monitor and alert users.
-
+- **Self-Updating**: The application automatically checks for updates and prompts you to install new versions.
 
 
 ## Usage
