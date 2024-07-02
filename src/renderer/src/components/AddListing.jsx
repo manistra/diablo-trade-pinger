@@ -5,7 +5,7 @@ import { equipmentOptions } from '../data'
 import { AFFIX_OPTIONS } from '../data'
 import Input from './form/Input'
 import DiabloTradePingerContext from '../context'
-
+import { openInBrowser } from '../utils/openInBrowser'
 const AddListing = ({ close }) => {
   AddListing.propTypes = {
     close: PropTypes.func.isRequired
@@ -48,11 +48,22 @@ const AddListing = ({ close }) => {
   return (
     <div className="border-diablo-dark min-w-[800px] max-w-[800px] border p-8 rounded flex flex-col gap-4 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-diablo-bg">
       <h1 className="font-exo uppercase text-diablo mx-auto text-3xl">New Listing</h1>
-      <p>
-        <span className="text-diablo">MUST READ NOTE: </span>
-        {`Affixes in this app are not perfect. If you see that an affix has a different wording here, than on
-        the site then it will never find the item, don't use it. I'm working on that, trying to get an accurate
-        list of affixes soon. Until then, I'll be adding an input so you guys can enter the value manually. That will be up tomorrow.`}
+      <p className="text-sm text-gray-300">
+        <span className="text-diablo">Note: </span>
+        Affixes in this app may not be entirely accurate. If you find an affix here with different
+        wording than on the site, it may affect the item search accuracy. Refrain from using such
+        affixes at the moment and report them on our{' '}
+        <a
+          className="underline text-blue-500"
+          href="https://discord.gg/QVDgUQMSqB"
+          onClick={(e) => {
+            e.preventDefault()
+            openInBrowser(e.currentTarget.href)
+          }}
+        >
+          Discord
+        </a>{' '}
+        to be fixed immedaitely.
       </p>
 
       <Dropdown

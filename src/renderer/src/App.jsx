@@ -1,11 +1,13 @@
 import { useContext, useState } from 'react'
 import logo from './assets/logo.png'
+import discord from './assets/discord.png'
 import AddListing from './components/AddListing'
 import DiabloTradePingerContext from './context'
 import ListingsTab from './components/ListingsTab'
 import PingsTab from './components/PingsTab'
 import Settings from './components/Settings'
 import Info from './components/Info'
+import { openInBrowser } from './utils/openInBrowser'
 
 function App() {
   const { isAddListingOpen, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
@@ -22,6 +24,23 @@ function App() {
           </div>
         </div>
 
+        <a
+          className="absolute bottom-3 left-1/2 -translate-x-1/2 border border-diablo-dark rounded p-4 bg-black-blur w-72 flex flex-row gap-5 items-center opacity-50 hover:opacity-100 transition-all duration-200 cursor-pointer"
+          href="https://discord.gg/QVDgUQMSqB"
+          onClick={(e) => {
+            e.preventDefault()
+            openInBrowser(e.currentTarget.href)
+          }}
+        >
+          <div>
+            <img alt="logo" className="w-12" src={discord} />
+          </div>
+          <div className="w-48 text-xs">
+            Click here to join our discord and help us out with{' '}
+            <strong className="text-diablo">suggestions</strong> and{' '}
+            <strong className="text-diablo">bug reports</strong>.
+          </div>
+        </a>
         <Settings />
       </header>
 

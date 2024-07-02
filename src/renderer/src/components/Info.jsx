@@ -58,6 +58,19 @@ const Info = ({ setIsInfoOpen, isInfoOpen }) => {
                 always work. And of course, you'll have to get its browser path.`}
             </p>
           </div>
+          <div>
+            <h2 className="font-bold text-2xl">{`Still no luck?`}</h2>
+            <a
+              className="pl-7 underline text-blue-500"
+              href="https://discord.gg/QVDgUQMSqB"
+              onClick={(e) => {
+                e.preventDefault()
+                openInBrowser(e.currentTarget.href)
+              }}
+            >
+              {`Click here to join our discord and contact us directly. We'll be happy to help you out.`}
+            </a>
+          </div>
         </div>
       </div>
     </div>
