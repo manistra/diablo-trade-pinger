@@ -71,10 +71,12 @@ export const snoopForItems = async ({
         let index = originalString.toLowerCase().indexOf(substring)
 
         if (index !== -1) {
-          return originalString.substring(0, index).replace(/%/g, '').replace(/\s/g, '')
-        } else {
-          return originalString.replace(/%/g, '').replace(/\s/g, '')
+          const affixPrefix = originalString.substring(0, index).match(/(\d+)/)
+
+          const value = affixPrefix[1]
+          if (value > 0) return 0
         }
+        return 0
       }
 
       elements.forEach((element) => {

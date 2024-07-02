@@ -2,22 +2,21 @@ import { helmAffixOptions } from './helm'
 import { gloveAffixOptions } from './glove'
 import { pantsAffixOptions } from './pants'
 import { ringAffixOptions } from './ring'
-import { oneHandAffixOptions } from './oneHanded'
-import { twoHandedAffixOptions } from './twoHanded'
-import { staffAffixOptions } from './staff'
-import { totemAffixOptions } from './totem'
 import { shieldAffixOptions } from './shield'
 import { bootsAffixOptions } from './boots'
 import { amuletAffixOptions } from './amulet'
 import { chestAffixOptions } from './chest'
+import { weaponAffixOptions } from './weapon'
+import { offhandAffixOptions } from './offhand'
 
 const EQUIPMENT_TYPES = {
-  AMULET: 'Amulet',
-  BOOTS: 'Boots',
+  HELM: 'Helm',
   CHESTARMOR: 'Chest Armor',
   GLOVES: 'Gloves',
-  HELM: 'Helm',
   PANTS: 'Pants',
+  BOOTS: 'Boots',
+
+  AMULET: 'Amulet',
   RING: 'Ring',
 
   AXE: 'Axe',
@@ -31,14 +30,14 @@ const EQUIPMENT_TYPES = {
   SHIELD: 'Shield',
   STAFF: 'Staff',
   TOTEM: 'Totem',
+  WAND: 'Wand',
 
   CROSSBOW: 'Crossbow',
   BOW: 'Bow',
   TWOHANDEDAXE: 'Two-Handed Axe',
   TWOHANDEDMACE: 'Two-Handed Mace',
   TWOHANDEDSCYTHE: 'Two-Handed Scythe',
-  TWOHANDEDSWORD: 'Two-Handed Sword',
-  WAND: 'Wand'
+  TWOHANDEDSWORD: 'Two-Handed Sword'
 }
 
 export const equipmentOptions = Object.values(EQUIPMENT_TYPES).map((type) => ({
@@ -47,31 +46,33 @@ export const equipmentOptions = Object.values(EQUIPMENT_TYPES).map((type) => ({
 }))
 
 export const AFFIX_OPTIONS = {
-  [EQUIPMENT_TYPES.AMULET]: amuletAffixOptions,
-  [EQUIPMENT_TYPES.BOOTS]: bootsAffixOptions,
+  [EQUIPMENT_TYPES.HELM]: helmAffixOptions,
   [EQUIPMENT_TYPES.CHESTARMOR]: chestAffixOptions,
   [EQUIPMENT_TYPES.GLOVES]: gloveAffixOptions,
-  [EQUIPMENT_TYPES.HELM]: helmAffixOptions,
   [EQUIPMENT_TYPES.PANTS]: pantsAffixOptions,
+  [EQUIPMENT_TYPES.BOOTS]: bootsAffixOptions,
+
+  [EQUIPMENT_TYPES.AMULET]: amuletAffixOptions,
   [EQUIPMENT_TYPES.RING]: ringAffixOptions,
 
-  [EQUIPMENT_TYPES.WAND]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.AXE]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.DAGGER]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.MACE]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.SWORD]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.FOCUS]: oneHandAffixOptions,
-  [EQUIPMENT_TYPES.SCYTHE]: oneHandAffixOptions,
-
   [EQUIPMENT_TYPES.SHIELD]: shieldAffixOptions,
-  [EQUIPMENT_TYPES.STAFF]: staffAffixOptions,
-  [EQUIPMENT_TYPES.TOTEM]: totemAffixOptions,
 
-  [EQUIPMENT_TYPES.BOW]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.CROSSBOW]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.POLEARM]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.TWOHANDEDAXE]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.TWOHANDEDMACE]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.TWOHANDEDSCYTHE]: twoHandedAffixOptions,
-  [EQUIPMENT_TYPES.TWOHANDEDSWORD]: twoHandedAffixOptions
+  [EQUIPMENT_TYPES.FOCUS]: offhandAffixOptions,
+  [EQUIPMENT_TYPES.TOTEM]: offhandAffixOptions,
+
+  [EQUIPMENT_TYPES.WAND]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.AXE]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.DAGGER]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.MACE]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.SWORD]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.SCYTHE]: weaponAffixOptions,
+
+  [EQUIPMENT_TYPES.STAFF]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.BOW]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.CROSSBOW]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.POLEARM]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.TWOHANDEDAXE]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.TWOHANDEDMACE]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.TWOHANDEDSCYTHE]: weaponAffixOptions,
+  [EQUIPMENT_TYPES.TWOHANDEDSWORD]: weaponAffixOptions
 }
