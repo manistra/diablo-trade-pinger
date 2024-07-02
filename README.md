@@ -76,6 +76,24 @@ If you would like to donate you can hit the button bellow and buy me a coffee.
 
 
 
+## How to find browser path? 
+
+1. Right click on your browser of choice.
+
+2. Select "Properties":
+
+![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/7426a17e-6dfc-45ef-8bc2-ab74e83b5698)
+
+3. Go to "Shortcut" tab:
+
+![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/790f6a94-7919-4a97-a76d-6957114fb1f7)
+
+4. Copy your browser path from the "Target" field: 
+
+![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/81b187d2-8383-4597-808b-cce6c71b44da)
+
+5. If your app still isn't working, try using a different browser by following the first 4 steps. Opera seems to have some issues while Edge almost always works. 
+
 
 
 ## License
