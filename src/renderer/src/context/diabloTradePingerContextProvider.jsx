@@ -33,7 +33,7 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(0)
 
   const handleSetExecutablePath = (value) => {
-    setExecutablePath(value)
+    setExecutablePath(value.replace(/"/g, ''))
     localStorage.setItem('executablePath', JSON.stringify(value))
   }
 

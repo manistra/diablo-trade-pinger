@@ -3,7 +3,7 @@ import DiabloTradePingerContext from '../context'
 import PropTypes from 'prop-types'
 import ga from '../assets/ga.png'
 import { getTimeDifferenceText } from '../utils/getTimeDifferenceText'
-
+import { openInBrowser } from '../utils/openInBrowser'
 const Ping = ({ ping }) => {
   const { deletePingById } = useContext(DiabloTradePingerContext)
   const [isClicked, setIsClicked] = useState(false)
@@ -19,9 +19,6 @@ const Ping = ({ ping }) => {
     return () => clearInterval(intervalId)
   }, [ping.createdAt])
 
-  const openInBrowser = (url) => {
-    window.open(url, '_blank')
-  }
   return (
     <div
       className="flex items-center flex-col w-[274px] h-[450px] border border-diablo-bg"
