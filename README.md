@@ -98,8 +98,7 @@ If you would like to donate you can hit the button bellow and buy me a coffee.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License
 ## Acknowledgments
 
 - **diablo.trade**: The website where trade listings are monitored.
