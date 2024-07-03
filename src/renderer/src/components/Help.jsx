@@ -1,6 +1,6 @@
 import { openInBrowser } from '../utils/openInBrowser'
-
 import PropTypes from 'prop-types'
+import { ChevronDownIcon } from '@heroicons/react/24/outline'
 
 const Help = ({ setIsInfoOpen, isInfoOpen }) => {
   return (
@@ -12,16 +12,10 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
           className="-ml-[1px] -mb-1px  bg-gradient-to-b from-diablo-bg to-black absolute top-0 -translate-y-full flex flex-row items-center gap-1 font-bold rounded-t-lg border border-diablo-dark border-b-0 py-1 px-3 text-base text-diablo-dark"
           onClick={() => setIsInfoOpen(!isInfoOpen)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className={`size-3 ${isInfoOpen && 'rotate-180 transition duration-500 ease-in'}`}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
-          </svg>
+          <ChevronDownIcon
+            strokeWidth={2}
+            className={`size-3 text-diablo ${!isInfoOpen && 'rotate-180 transition duration-500 ease-in'}`}
+          />
           {`The loading bar isn't moving? The app isn't working?`}
           <span className="text-diablo ">Click here!</span>
         </button>
@@ -32,7 +26,10 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
           </p>
 
           <div>
-            <h2 className="font-bold text-2xl">How to add a browser path?</h2>
+            <h2 className="font-bold text-2xl">
+              Your <span className="text-diablo">loading bar</span> {`isn't`} moving? You need to
+              add a browser path.
+            </h2>
             <p className="pl-7">
               Right-click your internet browsers shortcut, go to Properties - Shortcut tab, and copy
               the path from the Target field into the browser path in settings.

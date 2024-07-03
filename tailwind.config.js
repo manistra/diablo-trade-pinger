@@ -14,7 +14,8 @@ module.exports = {
         diablo: '#f28303',
         'diablo-dark': '#613e16',
         'diablo-bg': '#1a130e',
-        'diablo-yellow': '#fef08a'
+        'diablo-yellow': '#fef08a',
+        discord: '#5865F2'
       },
       fontFamily: {
         exo: ['ExocetOTCECY-Medium']

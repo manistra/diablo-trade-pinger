@@ -96,7 +96,7 @@ const PingsTab = () => {
               </CTAButton>
 
               {startButtonDisabledTime && (
-                <p className="absolute bottom-0 left-0 translate-y-full text-xs text-diablo-dark">
+                <p className="absolute bottom-0 left-0 translate-y-full text-xs text-gray-500">
                   Please wait {startButtonDisabledTime} more seconds
                 </p>
               )}
