@@ -3,7 +3,7 @@ import { openInBrowser } from '../utils/openInBrowser'
 const DiscordBanner = () => {
   return (
     <a
-      className="border border-[#282e70] hover:scale-105 hover:shadow-xl hover:opacity-100 opacity-80 hover:shadow-discord shadow-md shadow-discord  rounded p-4 bg-black-blur w-72 flex flex-row gap-5 items-center  transition-all duration-200 cursor-pointer"
+      className="border border-[#282e70] hover:scale-105 hover:shadow-lg hover:opacity-100 opacity-80 hover:shadow-discord shadow-md shadow-discord  rounded p-4 bg-black-blur w-72 flex flex-row gap-5 items-center  transition-all duration-200 cursor-pointer"
       href="https://discord.gg/QVDgUQMSqB"
       onClick={(e) => {
         e.preventDefault()

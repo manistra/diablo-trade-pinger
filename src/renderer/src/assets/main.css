@@ -13,17 +13,17 @@
       -1px 1px 0 #000,
       1px 1px 0 #000;
   }
+  .bg-black-blur {
+    @apply backdrop-blur bg-black bg-opacity-10;
+  }
   .btn-primary {
-    @apply bg-diablo rounded-sm text-diablo-bg uppercase px-3 py-2 opacity-80 hover:opacity-100 text-nowrap font-bold disabled:opacity-30 disabled:cursor-not-allowed;
+    @apply bg-diablo-dark border rounded-sm text-white uppercase px-3 py-2 opacity-80 hover:opacity-100 text-nowrap font-bold disabled:opacity-30 disabled:cursor-not-allowed font-exo;
   }
   .btn-secondary {
     @apply border-white rounded-sm text-white border px-3 py-2 opacity-70 hover:opacity-100 text-nowrap disabled:opacity-30 disabled:cursor-not-allowed;
   }
   .glow-shadow {
     filter: drop-shadow(0 0 1.2em #f28303);
-  }
-  .bg-black-blur {
-    @apply backdrop-blur bg-black bg-opacity-10;
   }
 }
 

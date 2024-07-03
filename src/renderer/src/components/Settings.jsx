@@ -13,7 +13,8 @@ const Settings = () => {
     handleSetPagesPerRun,
     runInterval,
     handleSetRunInterval,
-    isSnooping
+    isSnooping,
+    handleSetPatchNotesOpen
     // showBrowser,
     // setShowBrowser
   } = useContext(DiabloTradePingerContext)
@@ -66,18 +67,37 @@ const Settings = () => {
               />
 
               {/* <div className="flex flex-col">
-            <label className="text-sm text-diablo mb-2">Show Browser While Snooping</label>
+                <label className="text-sm text-diablo mb-2">Show Browser While Snooping</label>
 
-            <input
-              className="w-6 h-6 accent-diablo"
-              type="checkbox"
-              role="switch"
-              onClick={() => setShowBrowser(!showBrowser)}
-              checked={showBrowser}
-              id="flexSwitchCheckDefault02"
-              defaultChecked
-            />
-          </div> */}
+                <input
+                  className="w-6 h-6 accent-diablo"
+                  type="checkbox"
+                  role="switch"
+                  onClick={() => setShowBrowser(!showBrowser)}
+                  checked={showBrowser}
+                  id="flexSwitchCheckDefault02"
+                  defaultChecked
+                />
+                 </div> */}
+
+              <p className="absolute -bottom-7 right-1/2 translate-x-1/2 text text-diablo-dark">
+                Diablo Trade Pinger: v{import.meta.env.RENDERER_VITE_PACKAGE_VERSION}
+              </p>
+            </div>
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-diablo">Patch Notes:</label>
+
+                <button
+                  className="btn-secondary h-9 p-0"
+                  onClick={() => {
+                    handleSetPatchNotesOpen(true)
+                    setSettingsOpen(false)
+                  }}
+                >
+                  Show Patch Notes
+                </button>
+              </div>
             </div>
           </div>
         </Modal>

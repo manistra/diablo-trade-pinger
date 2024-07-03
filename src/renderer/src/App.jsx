@@ -7,9 +7,11 @@ import PingsTab from './components/pings/PingsTab'
 import Settings from './components/Settings'
 import Help from './components/Help'
 import DiscordBanner from './components/DiscordBanner'
+import PatchNotes from './components/PatchNotes'
 
 function App() {
-  const { isAddListingOpen, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
+  const { isAddListingOpen, setIsAddListingOpen, patchNotesOpen } =
+    useContext(DiabloTradePingerContext)
   const [isInfoOpen, setIsInfoOpen] = useState(false)
 
   return (
@@ -23,7 +25,6 @@ function App() {
           </div>
         </div>
         <DiscordBanner />
-        <Settings />
       </header>
 
       <div className="w-full h-[70%] flex flex-row gap-5">
@@ -42,6 +43,9 @@ function App() {
 
       {isAddListingOpen && <AddListing close={() => setIsAddListingOpen(false)} />}
       <Help setIsInfoOpen={setIsInfoOpen} isInfoOpen={isInfoOpen} />
+
+      <Settings />
+      {patchNotesOpen && <PatchNotes />}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 
 const ModalContent = ({ children, title, className, closeModal }) => {
   return (
-    <div className={'border-diablo-dark border w-[850px]  rounded-sm ' + className}>
+    <div className={'border-diablo-dark border w-[850px] rounded-sm ' + className}>
       <h1 className="relative bg-black-blur text-4xl uppercase font-exo flex items-center px-7 py-3">
         {title}
 
@@ -18,7 +18,7 @@ const ModalContent = ({ children, title, className, closeModal }) => {
         </button>
       </h1>
 
-      <div className="border-diablo-dark border-t p-9 backdrop-blur bg-black bg-opacity-45 min-h-[400px]">
+      <div className="border-diablo-dark border-t p-9 backdrop-blur bg-black bg-opacity-75 min-h-[400px] max-h-[740px]">
         {children}
       </div>
     </div>

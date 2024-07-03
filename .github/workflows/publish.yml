@@ -1,4 +1,5 @@
 name: Release
+
 on:
   push:
     branches:
@@ -13,11 +14,21 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: 20
-      - name: install dependencies
+
+      - name: Install dependencies
         run: npm install
-      - name: build/vite
+
+      - name: Extract package version
+        id: extract_version
+        run: echo "RENDERER_VITE_PACKAGE_VERSION=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_ENV
+
+      - name: Build/vite
         run: npm run build
-      - name: publish
+        env:
+          RENDERER_VITE_PACKAGE_VERSION: ${{ env.RENDERER_VITE_PACKAGE_VERSION }}
+
+      - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RENDERER_VITE_PACKAGE_VERSION: ${{ env.RENDERER_VITE_PACKAGE_VERSION }}
         run: npm run publish

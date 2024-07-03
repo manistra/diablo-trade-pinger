@@ -22,7 +22,7 @@ const ListingsTab = () => {
             Clear Listings
           </button>
           <button
-            className="font-exo text-4xl text-white bg-diablo rounded-sm px-1 opacity-80 hover:opacity-100 text-nowrap font-bold disabled:opacity-30 disabled:cursor-not-allowed text-outline"
+            className="font-exo text-4xl text-white bg-diablo-dark rounded-sm px-1 opacity-80 hover:opacity-100 text-nowrap font-bold disabled:opacity-30 disabled:cursor-not-allowed text-outline"
             onClick={() => setIsAddListingOpen(true)}
             disabled={isSnooping}
           >
