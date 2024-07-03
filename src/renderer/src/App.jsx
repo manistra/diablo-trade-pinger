@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react'
 import logo from './assets/logo.png'
 import discord from './assets/discord.png'
-import AddListing from './components/AddListing'
+import AddListing from './components/listings/AddListing'
 import DiabloTradePingerContext from './context'
-import ListingsTab from './components/ListingsTab'
-import PingsTab from './components/PingsTab'
+import ListingsTab from './components/listings/ListingsTab'
+import PingsTab from './components/pings/PingsTab'
 import Settings from './components/Settings'
-import Info from './components/Info'
+import Help from './components/Help'
 import { openInBrowser } from './utils/openInBrowser'
 
 function App() {
@@ -58,7 +58,7 @@ function App() {
         ></div>
       )}
       {isAddListingOpen && <AddListing close={() => setIsAddListingOpen(false)} />}
-      <Info setIsInfoOpen={setIsInfoOpen} isInfoOpen={isInfoOpen} />
+      <Help setIsInfoOpen={setIsInfoOpen} isInfoOpen={isInfoOpen} />
     </div>
   )
 }

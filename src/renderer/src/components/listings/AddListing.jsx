@@ -1,11 +1,11 @@
 import { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import Dropdown from './form/Dropdown'
-import { equipmentOptions } from '../data'
-import { AFFIX_OPTIONS } from '../data'
-import Input from './form/Input'
-import DiabloTradePingerContext from '../context'
-import { openInBrowser } from '../utils/openInBrowser'
+import Dropdown from '../form/Dropdown'
+import { equipmentOptions, AFFIX_OPTIONS } from '../../data'
+
+import Input from '../form/Input'
+import DiabloTradePingerContext from '../../context'
+import { openInBrowser } from '../../utils/openInBrowser'
 const AddListing = ({ close }) => {
   AddListing.propTypes = {
     close: PropTypes.func.isRequired

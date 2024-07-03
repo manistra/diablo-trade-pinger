@@ -1,9 +1,9 @@
 import { Fragment, useContext, useState, useEffect } from 'react'
-import DiabloTradePingerContext from '../context'
+import DiabloTradePingerContext from '../../context'
 import PropTypes from 'prop-types'
-import ga from '../assets/ga.png'
-import { getTimeDifferenceText } from '../utils/getTimeDifferenceText'
-import { openInBrowser } from '../utils/openInBrowser'
+import ga from '../../assets/ga.png'
+import { getTimeDifferenceText } from '../../utils/getTimeDifferenceText'
+import { openInBrowser } from '../../utils/openInBrowser'
 const Ping = ({ ping }) => {
   const { deletePingById } = useContext(DiabloTradePingerContext)
   const [isClicked, setIsClicked] = useState(false)

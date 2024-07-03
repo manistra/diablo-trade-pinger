@@ -1,106 +1,34 @@
 import { useState } from 'react'
 import DiabloTradePingerContext from '.'
 import PropTypes from 'prop-types'
-const notifier = require('node-notifier')
-const path = require('path')
-const { ipcRenderer } = require('electron')
-
-notifier.on('click', () => {
-  ipcRenderer.send('focus-window')
-})
+import useListings from './hooks/useListings'
+import usePings from './hooks/usePings'
+import useSettings from './hooks/useSettings'
 
 const DiabloTradePingerContextProvider = ({ children }) => {
-  // Add 'children' to props validation
-  DiabloTradePingerContextProvider.propTypes = {
-    children: PropTypes.node.isRequired
-  }
-  const existingListings = localStorage.getItem('listings')
-  const existingPings = localStorage.getItem('pings')
-  const executablePathLocalStorage = JSON.parse(localStorage.getItem('executablePath'))
-  const exisingRunInterval = JSON.parse(localStorage.getItem('run-interval'))
-  const exisingPagesPerRun = JSON.parse(localStorage.getItem('pages-per-run'))
-
-  const [isAddListingOpen, setIsAddListingOpen] = useState(false)
   const [isSnooping, setIsSnooping] = useState(false)
   const [showBrowser, setShowBrowser] = useState(false)
-
-  const [pagesPerRun, setPagesPerRun] = useState(Number(exisingPagesPerRun) || 4)
-  const [runInterval, setRunInterval] = useState(Number(exisingRunInterval) || 60)
-
-  const [listings, setListings] = useState(existingListings ? JSON.parse(existingListings) : [])
-  const [pings, setPings] = useState(existingPings ? JSON.parse(existingPings) : [])
-  const [executablePath, setExecutablePath] = useState(executablePathLocalStorage)
   const [currentPage, setCurrentPage] = useState(0)
 
-  const handleSetExecutablePath = (value) => {
-    setExecutablePath(value.replace(/"/g, ''))
-    localStorage.setItem('executablePath', JSON.stringify(value))
-  }
+  const {
+    listings,
+    isAddListingOpen,
+    setIsAddListingOpen,
+    hanldeAddListing,
+    deleteAllListings,
+    deleteListingById
+  } = useListings()
 
-  const handleAddPings = (incomingPings) => {
-    const existingPingsLocalStorage = localStorage.getItem('pings')
-    const existingPings = existingPingsLocalStorage ? JSON.parse(existingPingsLocalStorage) : []
+  const { pings, handleAddPings, deleteAllPings, deletePingById } = usePings()
 
-    const existingIds = existingPings.map((item) => item.diabloTradeId)
-
-    const newNonDuplicatePings = incomingPings.filter(
-      (item) => !existingIds.includes(item.diabloTradeId)
-    )
-
-    if (newNonDuplicatePings.length > 0)
-      notifier.notify({
-        title: `${newNonDuplicatePings.length} New Items Found!`,
-        message: 'Items found, come check them out!',
-        sound: true,
-        contentImage: path.join(__dirname, '../../resources/icon.ico'),
-        wait: true
-      })
-
-    const newPings = [...newNonDuplicatePings, ...existingPings]
-    setPings(newPings)
-    localStorage.setItem('pings', JSON.stringify(newPings))
-  }
-
-  const deleteAllPings = () => {
-    localStorage.removeItem('pings')
-    setPings([])
-  }
-
-  const deletePingById = (id) => {
-    const pingsCopy = pings.filter((item) => item.diabloTradeId !== id)
-
-    setPings(pingsCopy)
-    localStorage.setItem('pings', JSON.stringify(pingsCopy))
-  }
-
-  const hanldeAddListing = (listing) => {
-    const newListing = [...listings, listing]
-    setListings(newListing)
-    localStorage.setItem('listings', JSON.stringify(newListing))
-  }
-
-  const deleteAllListings = () => {
-    localStorage.removeItem('listings')
-    setListings([])
-  }
-
-  const deleteListingById = (id) => {
-    const listingsCopy = listings.filter((item) => item.id !== id)
-
-    setListings(listingsCopy)
-    localStorage.setItem('listings', JSON.stringify(listingsCopy))
-  }
-  const handleSetRunInterval = (value) => {
-    if (value < 45) value = 45
-
-    setRunInterval(value)
-    localStorage.setItem('run-interval', JSON.stringify(value))
-  }
-  const handleSetPagesPerRun = (value) => {
-    if (value > 6) value = 6
-    setPagesPerRun(value)
-    localStorage.setItem('pages-per-run', JSON.stringify(value))
-  }
+  const {
+    pagesPerRun,
+    runInterval,
+    executablePath,
+    handleSetPagesPerRun,
+    handleSetRunInterval,
+    handleSetExecutablePath
+  } = useSettings()
 
   return (
     <DiabloTradePingerContext.Provider
@@ -139,6 +67,10 @@ const DiabloTradePingerContextProvider = ({ children }) => {
       {children}
     </DiabloTradePingerContext.Provider>
   )
+}
+
+DiabloTradePingerContextProvider.propTypes = {
+  children: PropTypes.node.isRequired
 }
 
 export default DiabloTradePingerContextProvider

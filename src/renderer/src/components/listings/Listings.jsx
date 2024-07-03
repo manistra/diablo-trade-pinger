@@ -1,6 +1,6 @@
 import { useContext, Fragment } from 'react'
-import DiabloTradePingerContext from '../context'
-import { formatNumber } from '../utils/formatNumber'
+import DiabloTradePingerContext from '../../context'
+import { formatNumber } from '../../utils/formatNumber'
 const Listings = () => {
   const { listings, deleteListingById } = useContext(DiabloTradePingerContext)
 

@@ -2,7 +2,7 @@ import { openInBrowser } from '../utils/openInBrowser'
 
 import PropTypes from 'prop-types'
 
-const Info = ({ setIsInfoOpen, isInfoOpen }) => {
+const Help = ({ setIsInfoOpen, isInfoOpen }) => {
   return (
     <div
       className={`absolute bottom-0 left-8 transition-all duration-500 ease-out bg-gradient-to-b from-black to-diablo-bg  border border-b-0 border-diablo-dark rounded-t-sm w-[85%] h-[400px] ${!isInfoOpen && 'translate-y-full'}`}
@@ -77,9 +77,9 @@ const Info = ({ setIsInfoOpen, isInfoOpen }) => {
   )
 }
 
-Info.propTypes = {
+Help.propTypes = {
   setIsInfoOpen: PropTypes.func.isRequired,
   isInfoOpen: PropTypes.bool.isRequired
 }
 
-export default Info
+export default Help

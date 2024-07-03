@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import Listings from './Listings'
-import DiabloTradePingerContext from '../context'
+import DiabloTradePingerContext from '../../context'
 
 const ListingsTab = () => {
   const { deleteAllListings, setIsAddListingOpen, isSnooping, listings } =

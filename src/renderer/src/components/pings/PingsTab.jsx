@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
-import DiabloTradePingerContext from '../context'
-import useSnoop from '../hooks/useSnoop'
+import DiabloTradePingerContext from '../../context'
+import useSnoop from '../../hooks/useSnoop'
 import Ping from './Ping'
-import CTAButton from './CTAButton'
+import CTAButton from '../CTAButton'
 
 const PingsTab = () => {
   const [runCount, setRunCount] = useState(1)
