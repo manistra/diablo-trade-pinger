@@ -13,7 +13,7 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
 
 ## Download
 <p align="center">
-  <a href="https://github.com/manistra/diablo-trade-pinger/releases/download/v1.2.4/Diablo.Trade.Pinger-1.2.4.Setup.exe" style="text-decoration: none;">
+  <a href="https://github.com/manistra/diablo-trade-pinger/releases/download/v1.2.5/Diablo.Trade.Pinger-1.2.5.Setup.exe" style="text-decoration: none;">
     <img src="https://github.com/manistra/diablo-trade-pinger/assets/24444790/3f2c1919-be0f-4cd0-9af7-419de422323f" alt="Download">
   </a>
 </p>
