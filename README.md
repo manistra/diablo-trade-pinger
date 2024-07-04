@@ -1,14 +1,15 @@
 
 <p align="center">
   <a href="https://github.com/manistra/diablo-trade-pinger">
-    <img src="https://github.com/manistra/diablo-trade-pinger/assets/24444790/5d62b7fa-0359-4c89-a470-857f96144326" alt="logo">
+    <img src="https://github.com/manistra/diablo-trade-pinger/assets/24444790/86b31e50-7118-4d02-ad3f-bc92d7dda072" alt="logo">
   </a>
 </p>
 
-Diablo IV Trade Pinger is a desktop application built with Electron-Vite and React. It notifies users when new items matching specified affixes are listed on the [diablo.trade](https://diablo.trade) website, allowing Diablo IV players to stay updated on relevant trade listings.
 
+This app provides an easy-to-use, free tool that notifies users when new items matching specified affixes are listed on the [diablo.trade](https://diablo.trade) website. In a community where high-end traders often hoard their exclusive tools for themselves, gaining an advantage in quickly snatching valuable items—a practice known as sniping—I believe in making this tool equally accessible to everyone. By making it public, all players MUST have an equal opportunity.
 
-![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/6c16727f-f360-4aa2-a224-da8d6e41fb89)
+![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/7eb99563-d736-488a-998d-bac8fd7df3e4)
+
 
 
 ## Download
@@ -21,10 +22,6 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
 > [!NOTE]
 > If the loading bar does not move after clicking 'Start', it's likely due to an unset browser path in the application settings. To resolve this issue, navigate to the settings section of the application, set the correct browser path as per your system configuration, and save the settings. For further assistance, refer to the information button located at the bottom left corner of the application interface.
 
-
-## Limitations
-- Currently supports only Season Softcore, but other realms will be included soon. Totally forgot about this lol 🤣
-
 ## Features
 
 - **Real-time Notifications**: Receive instant notifications when new items meeting your criteria are listed.
@@ -32,6 +29,16 @@ Diablo IV Trade Pinger is a desktop application built with Electron-Vite and Rea
 - **User Interface**: Intuitive desktop interface designed for quick setup and efficient monitoring of trade listings.
 - **Runs as Desktop App**: Requires the application to be open and running to monitor and alert users.
 - **Self-Updating**: The application automatically checks for updates and prompts you to install new versions.
+
+## Discord
+<p align="center">
+  <a href="https://discord.gg/QVDgUQMSqB">
+    <img src="https://github.com/manistra/diablo-trade-pinger/assets/24444790/4f2cc6fa-0d53-4702-a558-3bee1d7d5401" alt="logo">
+  </a>
+</p>
+
+## Limitations
+- Currently supports only Season Softcore, but other realms will be included soon. Totally forgot about this lol 🤣
 
 
 ## Usage
