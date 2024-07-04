@@ -8,7 +8,7 @@
 
 This app provides an easy-to-use, free tool that notifies users when new items matching specified affixes are listed on the [diablo.trade](https://diablo.trade) website. In a community where high-end traders often hoard their exclusive tools for themselves, gaining an advantage in quickly snatching valuable items—a practice known as sniping—I believe in making this tool equally accessible to everyone. By making it public, all players have an equal opportunity.
 
-![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/7eb99563-d736-488a-998d-bac8fd7df3e4)
+![image](https://github.com/manistra/diablo-trade-pinger/assets/24444790/78eae573-aa7a-4aba-a40a-55678d65356b)
 
 
 
