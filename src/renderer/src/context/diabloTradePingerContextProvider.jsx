@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import useListings from './hooks/useListings'
 import usePings from './hooks/usePings'
 import useSettings from './hooks/useSettings'
-import usePatchNotes from './hooks/usePatchNotes'
+import useInformationModals from './hooks/useInformationModals'
 
 const DiabloTradePingerContextProvider = ({ children }) => {
   const [isSnooping, setIsSnooping] = useState(false)
@@ -21,7 +21,8 @@ const DiabloTradePingerContextProvider = ({ children }) => {
   } = useListings()
 
   const { pings, handleAddPings, deleteAllPings, deletePingById } = usePings()
-  const { patchNotesOpen, handleSetPatchNotesOpen } = usePatchNotes()
+  const { patchNotesOpen, handleSetPatchNotesOpen, welcomeModalOpen, handleSetWelcomeModalOpen } =
+    useInformationModals()
   const {
     pagesPerRun,
     runInterval,
@@ -53,6 +54,8 @@ const DiabloTradePingerContextProvider = ({ children }) => {
 
         patchNotesOpen,
         handleSetPatchNotesOpen,
+        welcomeModalOpen,
+        handleSetWelcomeModalOpen,
 
         executablePath,
         handleSetExecutablePath,

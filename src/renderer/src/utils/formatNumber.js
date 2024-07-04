@@ -6,6 +6,6 @@ export const formatNumber = (num) => {
   } else if (num >= 1e3) {
     return parseFloat((num / 1e3).toFixed(3)) + ' K'
   } else {
-    return num.toString()
+    return num?.toString()
   }
 }

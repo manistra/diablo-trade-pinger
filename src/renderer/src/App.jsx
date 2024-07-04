@@ -8,10 +8,10 @@ import Settings from './components/Settings'
 import Help from './components/Help'
 import DiscordBanner from './components/DiscordBanner'
 import PatchNotes from './components/PatchNotes'
+import WelcomeModal from './components/WelcomeModal'
 
 function App() {
-  const { isAddListingOpen, setIsAddListingOpen, patchNotesOpen } =
-    useContext(DiabloTradePingerContext)
+  const { isAddListingOpen, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
   const [isInfoOpen, setIsInfoOpen] = useState(false)
 
   return (
@@ -44,8 +44,10 @@ function App() {
       {isAddListingOpen && <AddListing close={() => setIsAddListingOpen(false)} />}
       <Help setIsInfoOpen={setIsInfoOpen} isInfoOpen={isInfoOpen} />
 
+      {/* MODALS */}
       <Settings />
-      {patchNotesOpen && <PatchNotes />}
+      <PatchNotes />
+      <WelcomeModal />
     </div>
   )
 }

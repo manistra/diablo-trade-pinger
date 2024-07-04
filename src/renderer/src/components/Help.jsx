@@ -19,16 +19,15 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
           {`The loading bar isn't moving? The app isn't working?`}
           <span className="text-diablo ">Click here!</span>
         </button>
-        <div className="p-8 text-gray-200 text-base font-sans gap-5 flex flex-col">
-          <p className="">
+        <div className="p-8 text-gray-200 text-base font-sans gap-7 flex flex-col">
+          <p>
             {`This app scrapes item listings from diablo.trade listing pages. In the background it's`}
             <span className="text-diablo"> using your browser.</span>
           </p>
 
           <div>
             <h2 className="font-bold text-2xl">
-              Your <span className="text-diablo">loading bar</span> {`isn't`} moving? You need to
-              add a browser path.
+              Your loading bar {`isn't`} moving? You need to add a browser path.
             </h2>
             <p className="pl-7">
               Right-click your internet browsers shortcut, go to Properties - Shortcut tab, and copy
@@ -45,6 +44,7 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
               Click here for a more in depth guide on how to get browser path
             </a>
           </div>
+
           <div>
             <h2 className="font-bold text-2xl">
               {`I've set the browser path but this shit still ain't workin'!`}
@@ -55,6 +55,7 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
                 always work. And of course, you'll have to get its browser path.`}
             </p>
           </div>
+
           <div>
             <h2 className="font-bold text-2xl">{`Still no luck?`}</h2>
             <a
@@ -65,7 +66,7 @@ const Help = ({ setIsInfoOpen, isInfoOpen }) => {
                 openInBrowser(e.currentTarget.href)
               }}
             >
-              {`Click here to join our discord and contact us directly. We'll be happy to help you out.`}
+              {`Click here to join our discord and contact me directly. We'll be happy to help you out.`}
             </a>
           </div>
         </div>
