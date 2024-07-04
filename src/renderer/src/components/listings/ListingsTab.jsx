@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import Listings from './Listings'
-import DiabloTradePingerContext from '../context'
+import DiabloTradePingerContext from '../../context'
 
 const ListingsTab = () => {
   const { deleteAllListings, setIsAddListingOpen, isSnooping, listings } =
@@ -21,8 +21,12 @@ const ListingsTab = () => {
           >
             Clear Listings
           </button>
-          <button className="btn-primary" onClick={() => setIsAddListingOpen(true)}>
-            Add Listing
+          <button
+            className="font-exo text-4xl text-white bg-diablo-dark rounded-sm px-1 opacity-80 hover:opacity-100 text-nowrap font-bold disabled:opacity-30 disabled:cursor-not-allowed text-outline"
+            onClick={() => setIsAddListingOpen(true)}
+            disabled={isSnooping}
+          >
+            t
           </button>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import { Fragment, useContext, useState, useEffect } from 'react'
-import DiabloTradePingerContext from '../context'
+import DiabloTradePingerContext from '../../context'
 import PropTypes from 'prop-types'
-import ga from '../assets/ga.png'
-import { getTimeDifferenceText } from '../utils/getTimeDifferenceText'
-import { openInBrowser } from '../utils/openInBrowser'
+import ga from '../../assets/ga.png'
+import { getTimeDifferenceText } from '../../utils/getTimeDifferenceText'
+import { openInBrowser } from '../../utils/openInBrowser'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+
 const Ping = ({ ping }) => {
   const { deletePingById } = useContext(DiabloTradePingerContext)
   const [isClicked, setIsClicked] = useState(false)
@@ -26,19 +28,13 @@ const Ping = ({ ping }) => {
     >
       <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll scrollbar relative">
         <button
-          className="group absolute top-1 right-1 p-1"
+          className="group absolute top-1 right-0"
           onClick={() => deletePingById(ping.diabloTradeId)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="2"
-            stroke="currentColor"
-            className="size-5  group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:text-white transition text-gray-400 cursor-pointer"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
+          <XMarkIcon
+            strokeWidth={2.5}
+            className="size-5 group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:text-white transition text-gray-400 cursor-pointer"
+          />
         </button>
 
         <h2 className="text-sm">{ping.listing.equipmentType}</h2>

@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react'
-import DiabloTradePingerContext from '../context'
-import useSnoop from '../hooks/useSnoop'
+import DiabloTradePingerContext from '../../context'
+import useSnoop from '../../hooks/useSnoop'
 import Ping from './Ping'
-import CTAButton from './CTAButton'
+import CTAButton from '../CTAButton'
 
 const PingsTab = () => {
   const [runCount, setRunCount] = useState(1)
@@ -96,7 +96,7 @@ const PingsTab = () => {
               </CTAButton>
 
               {startButtonDisabledTime && (
-                <p className="absolute bottom-0 left-0 translate-y-full text-xs text-diablo-dark">
+                <p className="absolute bottom-0 left-0 translate-y-full text-xs text-gray-500">
                   Please wait {startButtonDisabledTime} more seconds
                 </p>
               )}

@@ -7,7 +7,11 @@ const Input = ({ value, label, setValue, className, ...otherProps }) => {
 
       <input
         {...otherProps}
-        className={'text-black rounded h-9 p-4' + ' ' + className}
+        className={
+          'text-black h-9 p-4 outline-diablo placeholder:text-diablo-bg focus:outline disabled:cursor-not-allowed rounded-sm border border-diablo-dark' +
+          ' ' +
+          className
+        }
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
