@@ -3,6 +3,7 @@ import DiabloTradePingerContext from '../context'
 import Input from './form/Input'
 import Modal from './modal/Modal'
 import { Cog6ToothIcon } from '@heroicons/react/24/outline'
+import { getRunIntervalMinimum } from '../utils/getRunIntervalMinimum'
 
 const Settings = () => {
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -18,6 +19,8 @@ const Settings = () => {
     // showBrowser,
     // setShowBrowser
   } = useContext(DiabloTradePingerContext)
+
+  const runIntervalMin = getRunIntervalMinimum()
 
   return (
     <>
@@ -57,9 +60,9 @@ const Settings = () => {
 
               <Input
                 disabled={isSnooping}
-                label="Run Interval in seconds (min 45)"
+                label={`Run Interval in seconds (min ${runIntervalMin})`}
                 type="number"
-                min={45}
+                min={runIntervalMin}
                 max={6000}
                 value={runInterval || 60}
                 setValue={handleSetRunInterval}

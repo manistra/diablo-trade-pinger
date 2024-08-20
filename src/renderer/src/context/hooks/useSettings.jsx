@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { getRunIntervalMinimum } from '../../utils/getRunIntervalMinimum'
 
 const useSettings = () => {
   const exisingPagesPerRun = JSON.parse(localStorage.getItem('pages-per-run'))
@@ -15,7 +16,8 @@ const useSettings = () => {
   }
 
   const handleSetRunInterval = (value) => {
-    if (value < 45) value = 45
+    const runIntervalMin = getRunIntervalMinimum()
+    if (value < runIntervalMin) value = runIntervalMin
 
     setRunInterval(value)
     localStorage.setItem('run-interval', JSON.stringify(value))

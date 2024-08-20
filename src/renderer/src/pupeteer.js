@@ -1,9 +1,12 @@
 import { removeDuplicates } from './utils/removeDuplicates'
+import { withTimeout } from './utils/withTimeout'
 const { setTimeout } = require('node:timers/promises')
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
+
+const TIMEOUT = 3000
 
 export const snoopForItems = async ({
   executablePath,
@@ -18,148 +21,165 @@ export const snoopForItems = async ({
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
-    headless: !showBrowser
+    headless: showBrowser
   })
   const page = await browser.newPage()
 
-  for (let i = 1; i <= pagesPerRun; i++) {
-    setCurrentPage(i)
-    await page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`)
+  try {
+    for (let i = 1; i <= pagesPerRun; i++) {
+      setCurrentPage(i)
+      await withTimeout(
+        page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`),
+        TIMEOUT,
+        `Navigation to page ${i} timed out`
+      )
 
-    await page.waitForSelector('#app-container', { visible: true, timeout: 0 })
-    await page.waitForSelector('.WTS', { visible: true, timeout: 0 })
+      await withTimeout(
+        page.waitForSelector('#app-container', { visible: true, timeout: TIMEOUT }),
+        TIMEOUT,
+        'Waiting for #app-container timed out'
+      )
 
-    const result = await page.evaluate((listings) => {
-      const itemsToPing = []
+      await withTimeout(
+        page.waitForSelector('.WTS', { visible: true, timeout: TIMEOUT }),
+        TIMEOUT,
+        'Waiting for .WTS timed out'
+      )
 
-      const elements = document.querySelectorAll('.WTS')
+      const result = await page.evaluate((listings) => {
+        const itemsToPing = []
 
-      const findAffixes = (element) => {
-        // Get all elements that have an img with alt="separator"
-        const separatorElements = Array.from(element.querySelectorAll('img[alt="separator"]')).map(
-          (img) => img.closest('div')
-        ) // Get their closest div parent
+        const elements = document.querySelectorAll('.WTS')
 
-        // Get the last two separator elements
-        const lastTwoSeparators = separatorElements.slice(-3)
+        const findAffixes = (element) => {
+          // Get all elements that have an img with alt="separator"
+          const separatorElements = Array.from(
+            element.querySelectorAll('img[alt="separator"]')
+          ).map((img) => img.closest('div')) // Get their closest div parent
 
-        if (lastTwoSeparators.length < 2) {
-          return []
-        }
+          // Get the last two separator elements
+          const lastTwoSeparators = separatorElements.slice(-3)
 
-        // Get all elements between the last two separator elements
-        const affixElements = []
-        let currentNode = lastTwoSeparators[0].nextElementSibling
-
-        while (currentNode && currentNode !== lastTwoSeparators[1]) {
-          if (currentNode.hasAttribute('data-search')) {
-            affixElements.push(currentNode)
+          if (lastTwoSeparators.length < 2) {
+            return []
           }
-          currentNode = currentNode.nextElementSibling
+
+          // Get all elements between the last two separator elements
+          const affixElements = []
+          let currentNode = lastTwoSeparators[0].nextElementSibling
+
+          while (currentNode && currentNode !== lastTwoSeparators[1]) {
+            if (currentNode.hasAttribute('data-search')) {
+              affixElements.push(currentNode)
+            }
+            currentNode = currentNode.nextElementSibling
+          }
+
+          return affixElements.map((el) => {
+            const isGreaterAffix = Array.from(el.childNodes).some(
+              (childNode) => childNode.alt === 'greater affix'
+            )
+
+            return { value: el.textContent.trim().toLowerCase(), isGreaterAffix: isGreaterAffix }
+          })
         }
 
-        return affixElements.map((el) => {
-          const isGreaterAffix = Array.from(el.childNodes).some(
-            (childNode) => childNode.alt === 'greater affix'
-          )
+        const getMatchedAffixValue = (originalString, substring) => {
+          let index = originalString.toLowerCase().indexOf(substring)
 
-          return { value: el.textContent.trim().toLowerCase(), isGreaterAffix: isGreaterAffix }
-        })
-      }
+          if (index !== -1) {
+            const affixPrefix = originalString.substring(0, index).match(/(\d+)/)
 
-      const getMatchedAffixValue = (originalString, substring) => {
-        let index = originalString.toLowerCase().indexOf(substring)
-
-        if (index !== -1) {
-          const affixPrefix = originalString.substring(0, index).match(/(\d+)/)
-
-          const value = affixPrefix[1]
-          if (value > 0) return 0
+            const value = affixPrefix[1]
+            if (value > 0) return 0
+          }
+          return 0
         }
-        return 0
-      }
 
-      elements.forEach((element) => {
-        const elementAffixes = findAffixes(element)
+        elements.forEach((element) => {
+          const elementAffixes = findAffixes(element)
 
-        listings.forEach((listing) => {
-          let numberOfMatchedAffixes = 0
+          listings.forEach((listing) => {
+            let numberOfMatchedAffixes = 0
 
-          const isEquipmentType = element.innerText
-            .toLowerCase()
-            .includes(listing.equipmentType.toLowerCase())
-          const isLegendary = element.innerText.toLowerCase().includes('legendary')
+            const isEquipmentType = element.innerText
+              .toLowerCase()
+              .includes(listing.equipmentType.toLowerCase())
+            const isLegendary = element.innerText.toLowerCase().includes('legendary')
 
-          const isListingEquipmentTypeOneHanded = ['axe', 'mace', 'scythe', 'sword'].includes(
-            listing.equipmentType.toLowerCase()
-          )
-          const isTwoHanded = element.innerText.toLowerCase().includes('two-handed')
+            const isListingEquipmentTypeOneHanded = ['axe', 'mace', 'scythe', 'sword'].includes(
+              listing.equipmentType.toLowerCase()
+            )
+            const isTwoHanded = element.innerText.toLowerCase().includes('two-handed')
 
-          const oneHandedGuardCondition = isListingEquipmentTypeOneHanded ? !isTwoHanded : true
+            const oneHandedGuardCondition = isListingEquipmentTypeOneHanded ? !isTwoHanded : true
 
-          if (isEquipmentType && isLegendary && oneHandedGuardCondition) {
-            listing.affixes.forEach(async (affix) => {
-              const affixNameLower = affix.name.toLowerCase()
-              const matchedElementAffix = elementAffixes.find((elementAffix) =>
-                elementAffix.value.includes(affixNameLower)
-              )
+            if (isEquipmentType && isLegendary && oneHandedGuardCondition) {
+              listing.affixes.forEach(async (affix) => {
+                const affixNameLower = affix.name.toLowerCase()
+                const matchedElementAffix = elementAffixes.find((elementAffix) =>
+                  elementAffix.value.includes(affixNameLower)
+                )
 
-              if (matchedElementAffix) {
-                if (affix.minValue == 0) {
-                  numberOfMatchedAffixes++
-                } else {
-                  const matchedAffixValue = getMatchedAffixValue(
-                    matchedElementAffix.value,
-                    affixNameLower
-                  )
-                  if (Number(matchedAffixValue) >= Number(affix.minValue)) numberOfMatchedAffixes++
+                if (matchedElementAffix) {
+                  if (affix.minValue == 0) {
+                    numberOfMatchedAffixes++
+                  } else {
+                    const matchedAffixValue = getMatchedAffixValue(
+                      matchedElementAffix.value,
+                      affixNameLower
+                    )
+                    if (Number(matchedAffixValue) >= Number(affix.minValue))
+                      numberOfMatchedAffixes++
+                  }
                 }
-              }
-            })
-
-            if (
-              (listing.affixes.length >= 2 && numberOfMatchedAffixes >= 2) ||
-              (listing.affixes.length === 1 && numberOfMatchedAffixes > 0)
-            ) {
-              const tradeElement = element.querySelector('.backdrop-blur')
-              const offerState = tradeElement.textContent.toLowerCase().includes('taking offers')
-                ? 'Taking Offers'
-                : 'Exact Price'
-
-              const price = tradeElement.querySelector('h4').textContent
-
-              const listedElement = tradeElement.querySelector('span')
-              const listed = listedElement.textContent
+              })
 
               if (
-                price.toLowerCase().includes('offer') ||
-                Number(price.replace(/,/g, '')) <= Number(listing.maxPrice)
-              )
-                itemsToPing.push({
-                  diabloTradeId: tradeElement.id,
-                  listing: listing,
-                  createdAt: new Date().toISOString(),
-                  item: {
-                    offerState: offerState,
-                    listedTime: listed,
-                    price: price,
-                    affixes: elementAffixes
-                  }
-                })
+                (listing.affixes.length >= 2 && numberOfMatchedAffixes >= 2) ||
+                (listing.affixes.length === 1 && numberOfMatchedAffixes > 0)
+              ) {
+                const tradeElement = element.querySelector('.backdrop-blur')
+                const offerState = tradeElement.textContent.toLowerCase().includes('taking offers')
+                  ? 'Taking Offers'
+                  : 'Exact Price'
+
+                const price = tradeElement.querySelector('h4').textContent
+
+                const listedElement = tradeElement.querySelector('span')
+                const listed = listedElement.textContent
+
+                if (
+                  price.toLowerCase().includes('offer') ||
+                  Number(price.replace(/,/g, '')) <= Number(listing.maxPrice)
+                )
+                  itemsToPing.push({
+                    diabloTradeId: tradeElement.id,
+                    listing: listing,
+                    createdAt: new Date().toISOString(),
+                    item: {
+                      offerState: offerState,
+                      listedTime: listed,
+                      price: price,
+                      affixes: elementAffixes
+                    }
+                  })
+              }
             }
-          }
+          })
         })
-      })
 
-      return itemsToPing
-    }, listings)
-    finalResult = [...finalResult, ...result]
+        return itemsToPing
+      }, listings)
+      finalResult = [...finalResult, ...result]
 
-    await setTimeout(450)
+      await setTimeout(450)
+    }
+
+    handleAddPings(removeDuplicates(finalResult, 'diabloTradeId'))
+  } catch (error) {
+    console.error('An error occurred:', error.message)
+  } finally {
+    await browser.close()
   }
-
-  handleAddPings(removeDuplicates(finalResult, 'diabloTradeId'))
-
-  // Close browser after timeout and cleanup
-  await browser.close()
 }
