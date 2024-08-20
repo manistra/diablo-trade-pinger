@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const Input = ({ value, label, setValue, className, ...otherProps }) => {
   return (
@@ -7,11 +8,10 @@ const Input = ({ value, label, setValue, className, ...otherProps }) => {
 
       <input
         {...otherProps}
-        className={
-          'text-black h-9 p-4 outline-diablo placeholder:text-diablo-bg focus:outline disabled:cursor-not-allowed rounded-sm border border-diablo-dark' +
-          ' ' +
+        className={clsx(
+          'text-black h-9 p-4 outline-diablo placeholder:text-diablo-bg focus:outline disabled:cursor-not-allowed rounded-sm border border-diablo-dark',
           className
-        }
+        )}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

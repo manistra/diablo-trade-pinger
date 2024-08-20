@@ -1,9 +1,10 @@
 import Select from 'react-tailwindcss-select'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 const Dropdown = ({ className, options, label, ...otherProps }) => {
   return (
-    <div className={'flex flex-col gap-2' + ' ' + className}>
+    <div className={clsx('flex flex-col gap-2', className)}>
       <label className="text-sm text-diablo">{label}</label>
 
       <Select

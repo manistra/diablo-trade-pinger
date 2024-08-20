@@ -28,13 +28,10 @@ const Ping = ({ ping }) => {
     >
       <div className="bg-black bg-opacity-30 border border-diablo-bg text-gray-400 border-b-0 rounded rounded-b-none p-2 pb-4 w-full -mb-1 h-[100px] overflow-y-scroll scrollbar relative">
         <button
-          className="group absolute top-1 right-0"
+          className="absolute top-1 right-0 hover:scale-110 text-gray-400 cursor-pointer"
           onClick={() => deletePingById(ping.diabloTradeId)}
         >
-          <XMarkIcon
-            strokeWidth={2.5}
-            className="size-5 group-hover:scale-110 group-hover:rotate-90 duration-300 group-hover:text-white transition text-gray-400 cursor-pointer"
-          />
+          <XMarkIcon strokeWidth={2.5} className="size-5" />
         </button>
 
         <h2 className="text-sm">{ping.listing.equipmentType}</h2>
@@ -42,10 +39,16 @@ const Ping = ({ ping }) => {
           {ping.listing.affixes.map((affix, index) => (
             <Fragment key={index}>
               {!!affix?.name && (
-                <li className="flex flex-row gap-3 items-center pl-4 text-xs capitalize">
-                  <span className="h-1 w-1 rotate-45 border bg-white"></span>
+                <li className="flex flex-row gap-1 items-center pl-4 text-xs capitalize">
+                  <div className="flex items-center justify-center w-4 h-4">
+                    {affix.isGreaterAffix ? (
+                      <img alt="ga" className="w-3 h-3" src={ga} />
+                    ) : (
+                      <span className="h-1 w-1 rotate-45 border bg-white"></span>
+                    )}
+                  </div>
+
                   <p>{affix.name}</p>
-                  <p className="font-exo text-diablo"> {'>= ' + affix.minValue}</p>
                 </li>
               )}
             </Fragment>
@@ -115,7 +118,7 @@ Ping.propTypes = {
       affixes: PropTypes.arrayOf(
         PropTypes.shape({
           name: PropTypes.string,
-          minValue: PropTypes.number
+          isGreaterAffix: PropTypes.bool
         })
       )
     }),

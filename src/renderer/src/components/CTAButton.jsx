@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import btn from '../assets/btn.png'
 import debounce from 'lodash.debounce'
+import clsx from 'clsx'
 
 const CTAButton = ({ className, children, disabled, onClick, ...otherProps }) => {
   const debouncedOnClick = useCallback(
@@ -16,7 +17,11 @@ const CTAButton = ({ className, children, disabled, onClick, ...otherProps }) =>
   return (
     <button
       disabled={disabled}
-      className={`transition duration-300 disabled:opacity-30 disabled:pointer-events-none relative ${className} ${!disabled && 'hover:glow-shadow'}`}
+      className={clsx(
+        'transition duration-300 disabled:opacity-30 disabled:pointer-events-none relative',
+        !disabled && 'hover:glow-shadow',
+        className
+      )}
       onClick={debouncedOnClick}
       {...otherProps}
     >

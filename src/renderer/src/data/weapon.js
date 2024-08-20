@@ -19,6 +19,5 @@ export const weaponAffixOptions = [
   { value: 'Essence on Kill', label: 'Essence on Kill' },
   { value: 'Dexterity', label: 'Dexterity' },
   { value: 'Energy on Kill', label: 'Energy on Kill' },
-  { value: 'Intelligence', label: 'Intelligence' },
   { value: 'Mana on Kill', label: 'Mana on Kill' }
 ]

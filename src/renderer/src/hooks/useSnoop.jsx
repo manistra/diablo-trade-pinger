@@ -3,6 +3,8 @@ import DiabloTradePingerContext from '../context'
 import { snoopForItems } from '../pupeteer'
 import { withTimeout } from '../utils/withTimeout'
 
+const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
+
 const useSnoop = () => {
   const {
     executablePath,
@@ -56,16 +58,20 @@ const useSnoop = () => {
     let isCancelled = false
 
     const runTask = async () => {
-      while (isSnooping && !isCancelled) {
-        setCountdown(runInterval)
-        await withTimeout(snoop(), 30000, 'Waiting for snoop() timed out')
-        if (!isCancelled) {
-          for (let i = runInterval; i > 0; i--) {
-            setCountdown(i)
-            await new Promise((resolve) => setTimeout(resolve, 1000)) // Update countdown every second
+      if (IS_PUPETEER_DEV_ENV) {
+        await snoop()
+        setIsSnooping(false)
+      } else
+        while (isSnooping && !isCancelled) {
+          setCountdown(runInterval)
+          await withTimeout(snoop(), 30000, 'Waiting for snoop() timed out')
+          if (!isCancelled) {
+            for (let i = runInterval; i > 0; i--) {
+              setCountdown(i)
+              await new Promise((resolve) => setTimeout(resolve, 1000)) // Update countdown every second
+            }
           }
         }
-      }
     }
 
     if (isSnooping) {

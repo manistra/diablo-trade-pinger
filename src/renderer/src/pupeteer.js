@@ -7,6 +7,9 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 const TIMEOUT = 3000
+const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
+const PUPETEER_TESTING_URL =
+  'https://diablo.trade/listings/items?equipment=bow&group1=ec7233d732f8602%7Ce4fcc86f399018c%40greater%7C9befc12052e030c'
 
 export const snoopForItems = async ({
   executablePath,
@@ -21,18 +24,21 @@ export const snoopForItems = async ({
 
   const browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
-    headless: showBrowser
+    headless: IS_PUPETEER_DEV_ENV ? false : showBrowser
   })
   const page = await browser.newPage()
 
+  const pagesNumber = IS_PUPETEER_DEV_ENV ? 1 : pagesPerRun
+
   try {
-    for (let i = 1; i <= pagesPerRun; i++) {
+    for (let i = 1; i <= pagesNumber; i++) {
+      console.log('Scanning page:', i, 'out of', pagesNumber)
       setCurrentPage(i)
-      await withTimeout(
-        page.goto(`https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`),
-        TIMEOUT,
-        `Navigation to page ${i} timed out`
-      )
+      const url = IS_PUPETEER_DEV_ENV
+        ? PUPETEER_TESTING_URL
+        : `https://diablo.trade/listings/items?mode=season%20softcore&cursor=${i}`
+
+      await withTimeout(page.goto(url), TIMEOUT, `Navigation to page ${i} timed out`)
 
       await withTimeout(
         page.waitForSelector('#app-container', { visible: true, timeout: TIMEOUT }),
@@ -84,53 +90,44 @@ export const snoopForItems = async ({
           })
         }
 
-        const getMatchedAffixValue = (originalString, substring) => {
-          let index = originalString.toLowerCase().indexOf(substring)
-
-          if (index !== -1) {
-            const affixPrefix = originalString.substring(0, index).match(/(\d+)/)
-
-            const value = affixPrefix[1]
-            if (value > 0) return 0
-          }
-          return 0
-        }
-
         elements.forEach((element) => {
           const elementAffixes = findAffixes(element)
 
           listings.forEach((listing) => {
             let numberOfMatchedAffixes = 0
-
+            // ________________________________________________________________EQUIPMENT TYPES really bad code but it works, maybe refactor later
             const isEquipmentType = element.innerText
               .toLowerCase()
               .includes(listing.equipmentType.toLowerCase())
             const isLegendary = element.innerText.toLowerCase().includes('legendary')
-
             const isListingEquipmentTypeOneHanded = ['axe', 'mace', 'scythe', 'sword'].includes(
               listing.equipmentType.toLowerCase()
             )
             const isTwoHanded = element.innerText.toLowerCase().includes('two-handed')
-
             const oneHandedGuardCondition = isListingEquipmentTypeOneHanded ? !isTwoHanded : true
 
-            if (isEquipmentType && isLegendary && oneHandedGuardCondition) {
-              listing.affixes.forEach(async (affix) => {
-                const affixNameLower = affix.name.toLowerCase()
+            const isBow = ['bow'].includes(listing.equipmentType.toLowerCase())
+            const isCrossbow = element.innerText.toLowerCase().includes('crossbow')
+            const crossBowGuardCondition = isBow ? !isCrossbow : true
+            // ________________________________________________________________EQUIPMENT TYPES
+
+            if (
+              isEquipmentType &&
+              isLegendary &&
+              oneHandedGuardCondition &&
+              crossBowGuardCondition
+            ) {
+              listing.affixes.forEach(async (listingAffix) => {
+                const listingAffixNameLower = listingAffix.name.toLowerCase()
                 const matchedElementAffix = elementAffixes.find((elementAffix) =>
-                  elementAffix.value.includes(affixNameLower)
+                  elementAffix.value.includes(listingAffixNameLower)
                 )
 
                 if (matchedElementAffix) {
-                  if (affix.minValue == 0) {
+                  if (!listingAffix.isGreaterAffix) {
                     numberOfMatchedAffixes++
                   } else {
-                    const matchedAffixValue = getMatchedAffixValue(
-                      matchedElementAffix.value,
-                      affixNameLower
-                    )
-                    if (Number(matchedAffixValue) >= Number(affix.minValue))
-                      numberOfMatchedAffixes++
+                    if (matchedElementAffix.isGreaterAffix) numberOfMatchedAffixes++
                   }
                 }
               })
@@ -151,7 +148,8 @@ export const snoopForItems = async ({
 
                 if (
                   price.toLowerCase().includes('offer') ||
-                  Number(price.replace(/,/g, '')) <= Number(listing.maxPrice)
+                  Number(price.replace(/,/g, '')) <= Number(listing.maxPrice) ||
+                  listing.maxPrice === 0
                 )
                   itemsToPing.push({
                     diabloTradeId: tradeElement.id,
@@ -180,6 +178,6 @@ export const snoopForItems = async ({
   } catch (error) {
     console.error('An error occurred:', error.message)
   } finally {
-    await browser.close()
+    if (!IS_PUPETEER_DEV_ENV) await browser.close()
   }
 }

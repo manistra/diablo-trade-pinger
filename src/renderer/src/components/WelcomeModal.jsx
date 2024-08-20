@@ -5,7 +5,6 @@ import Modal from './modal/Modal'
 const WelcomeModal = () => {
   const { welcomeModalOpen, handleSetWelcomeModalOpen } = useContext(DiabloTradePingerContext)
 
-  console.log(welcomeModalOpen)
   return (
     <>
       {welcomeModalOpen && (
