@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from 'react'
 import DiabloTradePingerContext from '../context'
-import { snoopForItems } from '../pupeteer'
+import { snoopForItems, browser } from '../pupeteer'
 import { withTimeout } from '../utils/withTimeout'
+const { ipcRenderer } = require('electron')
 
 const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
 
@@ -82,6 +83,13 @@ const useSnoop = () => {
       isCancelled = true
     }
   }, [isSnooping])
+
+  const handleCleanup = async () => {
+    if (browser) await browser.close()
+    ipcRenderer.send('cleanup-complete')
+  }
+
+  ipcRenderer.on('close-request', handleCleanup)
 
   return { startSnooping, stopSnooping, ongoingSnoops, countdown }
 }

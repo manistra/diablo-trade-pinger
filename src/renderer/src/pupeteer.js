@@ -6,6 +6,8 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
 puppeteer.use(StealthPlugin())
 
+export let browser
+
 const TIMEOUT = 3000
 const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
 const PUPETEER_TESTING_URL =
@@ -22,7 +24,7 @@ export const snoopForItems = async ({
   console.log('Started snooping...')
   let finalResult = []
 
-  const browser = await puppeteer.launch({
+  browser = await puppeteer.launch({
     ...(!!executablePath && { executablePath: executablePath }),
     headless: IS_PUPETEER_DEV_ENV ? false : showBrowser
   })

@@ -54,7 +54,7 @@ const Settings = () => {
                 setValue={handleSetPagesPerRun}
                 type="number"
                 min={1}
-                max={5}
+                max={6}
                 className=""
               />
 
