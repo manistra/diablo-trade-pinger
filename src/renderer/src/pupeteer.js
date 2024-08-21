@@ -44,13 +44,13 @@ export const snoopForItems = async ({
       await withTimeout(page.goto(url), TIMEOUT, `Navigation to page ${i} timed out`)
 
       await withTimeout(
-        page.waitForSelector('#app-container', { visible: true, timeout: TIMEOUT }),
+        page.waitForSelector('#app-container', { visible: true, timeout: 0 }),
         TIMEOUT,
         'Waiting for #app-container timed out'
       )
 
       await withTimeout(
-        page.waitForSelector('.WTS', { visible: true, timeout: TIMEOUT }),
+        page.waitForSelector('.WTS', { visible: true, timeout: 0 }),
         TIMEOUT,
         'Waiting for .WTS timed out'
       )
