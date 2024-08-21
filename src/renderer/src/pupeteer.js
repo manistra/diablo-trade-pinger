@@ -8,6 +8,7 @@ puppeteer.use(StealthPlugin())
 
 export let browser
 
+const godmodeActive = localStorage.getItem('godmode') === 'true'
 const TIMEOUT = 3000
 const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
 const PUPETEER_TESTING_URL =
@@ -173,7 +174,7 @@ export const snoopForItems = async ({
       }, listings)
       finalResult = [...finalResult, ...result]
 
-      await setTimeout(450)
+      await setTimeout(godmodeActive ? 150 : 450)
     }
 
     handleAddPings(removeDuplicates(finalResult, 'diabloTradeId'))

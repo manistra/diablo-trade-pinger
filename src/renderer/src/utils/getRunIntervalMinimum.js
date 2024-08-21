@@ -1,1 +1,4 @@
-export const getRunIntervalMinimum = () => 45
+export const getRunIntervalMinimum = () => {
+  if (localStorage.getItem('godmode') === 'true') return 5
+  else return 30
+}

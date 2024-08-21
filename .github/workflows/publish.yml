@@ -9,6 +9,9 @@ on:
 jobs:
   publish_on_win:
     runs-on: windows-latest
+
+    environment: production
+
     steps:
       - uses: actions/checkout@v2
 
@@ -27,6 +30,7 @@ jobs:
         run: npm run build
         env:
           RENDERER_VITE_PACKAGE_VERSION: ${{ env.RENDERER_VITE_PACKAGE_VERSION }}
+          RENDERER_VITE_GODMODE_KEY: ${{ secrets.RENDERER_VITE_GODMODE_KEY }}
 
       - name: Publish
         env:

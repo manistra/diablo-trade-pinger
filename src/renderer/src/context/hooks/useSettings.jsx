@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getRunIntervalMinimum } from '../../utils/getRunIntervalMinimum'
+import { getPagesPerRunMaximum } from '../../utils/getPagesPerRunMaximum'
 
 const useSettings = () => {
   const exisingPagesPerRun = JSON.parse(localStorage.getItem('pages-per-run'))
@@ -23,7 +24,9 @@ const useSettings = () => {
     localStorage.setItem('run-interval', JSON.stringify(value))
   }
   const handleSetPagesPerRun = (value) => {
-    if (value > 6) value = 6
+    const pagesPerRunMax = getPagesPerRunMaximum()
+
+    if (value > pagesPerRunMax) value = pagesPerRunMax
     setPagesPerRun(value)
     localStorage.setItem('pages-per-run', JSON.stringify(value))
   }

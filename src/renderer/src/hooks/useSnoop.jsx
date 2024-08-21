@@ -47,7 +47,7 @@ const useSnoop = () => {
         handleAddPings: handleAddPings,
         listings: listings,
         showBrowser: !showBrowser,
-        pagesPerRun: pagesPerRun > 6 ? 6 : pagesPerRun,
+        pagesPerRun: pagesPerRun,
         setCurrentPage: (value) => setCurrentPage(value)
       })
     } finally {
@@ -65,7 +65,7 @@ const useSnoop = () => {
       } else
         while (isSnooping && !isCancelled) {
           setCountdown(runInterval)
-          await withTimeout(snoop(), 30000, 'Waiting for snoop() timed out')
+          await withTimeout(snoop(), 200000, 'Waiting for snoop() timed out')
           if (!isCancelled) {
             for (let i = runInterval; i > 0; i--) {
               setCountdown(i)
