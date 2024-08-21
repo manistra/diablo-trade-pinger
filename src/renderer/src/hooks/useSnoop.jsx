@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import DiabloTradePingerContext from '../context'
 import { snoopForItems, browser } from '../pupeteer'
-import { withTimeout } from '../utils/withTimeout'
 const { ipcRenderer } = require('electron')
 
 const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
@@ -65,7 +64,7 @@ const useSnoop = () => {
       } else
         while (isSnooping && !isCancelled) {
           setCountdown(runInterval)
-          await withTimeout(snoop(), 200000, 'Waiting for snoop() timed out')
+          await snoop()
           if (!isCancelled) {
             for (let i = runInterval; i > 0; i--) {
               setCountdown(i)
