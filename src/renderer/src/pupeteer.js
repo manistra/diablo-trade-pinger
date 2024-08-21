@@ -9,7 +9,7 @@ puppeteer.use(StealthPlugin())
 export let browser
 
 const godmodeActive = localStorage.getItem('godmode') === 'true'
-const TIMEOUT = 3000
+const TIMEOUT = 5000
 const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
 const PUPETEER_TESTING_URL =
   'https://diablo.trade/listings/items?equipment=bow&group1=ec7233d732f8602%7Ce4fcc86f399018c%40greater%7C9befc12052e030c'
