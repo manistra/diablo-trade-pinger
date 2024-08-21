@@ -9,19 +9,27 @@ import Help from './components/Help'
 import DiscordBanner from './components/DiscordBanner'
 import PatchNotes from './components/PatchNotes'
 import WelcomeModal from './components/WelcomeModal'
+import clsx from 'clsx'
 
 function App() {
   const { isAddListingOpen, setIsAddListingOpen } = useContext(DiabloTradePingerContext)
   const [isInfoOpen, setIsInfoOpen] = useState(false)
+  const godmodeActive = localStorage.getItem('godmode') === 'true'
 
   return (
     <div className="h-[100vh] w-full flex flex-col items-start justify-start box-content">
       <header className="flex flex-row items-center w-full justify-between h-[15%]">
         <div className="flex flex-row items-center gap-3">
-          <img alt="logo" className="w-28 h-28" src={logo} />
-          <div className="flex flex-col items-center font-exo text-2xl">
+          <img alt="logo" className={clsx('w-28 h-28', godmodeActive && 'burning')} src={logo} />
+
+          <div className="flex flex-col items-center font-exo text-2xl relative">
             <span className="text-5xl text-diablo">DIABLO</span>
             <span>Trade Pinger</span>
+            {godmodeActive && (
+              <span className="absolute bottom-0 translate-y-7  text-red-950 font-thin z-50 left-0 opacity-65">
+                God Mode
+              </span>
+            )}
           </div>
         </div>
         <DiscordBanner />

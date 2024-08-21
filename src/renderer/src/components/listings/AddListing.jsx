@@ -4,6 +4,7 @@ import Dropdown from '../form/Dropdown'
 import { equipmentOptions, AFFIX_OPTIONS } from '../../data'
 import Modal from '../modal/Modal'
 import Input from '../form/Input'
+import GaCheckbox from '../form/GaCheckbox'
 import DiabloTradePingerContext from '../../context'
 import { openInBrowser } from '../../utils/openInBrowser'
 const AddListing = ({ close }) => {
@@ -16,20 +17,20 @@ const AddListing = ({ close }) => {
   const [equipmentType, setEquipmentType] = useState(null)
   const [maxPrice, setMaxPrice] = useState(0)
   const [affixes, setAffixes] = useState([
-    { name: '', minValue: 0 },
-    { name: '', minValue: 0 },
-    { name: '', minValue: 0 }
+    { name: '', isGreaterAffix: false },
+    { name: '', isGreaterAffix: false },
+    { name: '', isGreaterAffix: false }
   ])
 
   const handleSetAffixName = (index, value) => {
     const affixesCopy = [...affixes]
-    affixesCopy[index] = { name: value, minValue: affixesCopy[index].minValue }
+    affixesCopy[index] = { name: value, isGreaterAffix: affixesCopy[index].isGreaterAffix }
     setAffixes(affixesCopy)
   }
 
-  const handleSetAffixMinValue = (index, value) => {
+  const handleSetAffixGreaterAffix = (index, value) => {
     const affixesCopy = [...affixes]
-    affixesCopy[index] = { name: affixesCopy[index].name, minValue: value }
+    affixesCopy[index] = { name: affixesCopy[index].name, isGreaterAffix: value }
     setAffixes(affixesCopy)
   }
 
@@ -105,12 +106,9 @@ const AddListing = ({ close }) => {
                   options={AFFIX_OPTIONS[equipmentType]}
                 />
 
-                <Input
-                  type="number"
-                  className="w-28"
-                  label="Min Value"
-                  value={affixes[0].minValue}
-                  setValue={(value) => handleSetAffixMinValue(0, value)}
+                <GaCheckbox
+                  value={affixes[0].isGreaterAffix}
+                  setValue={(value) => handleSetAffixGreaterAffix(0, value)}
                 />
               </div>
 
@@ -122,12 +120,9 @@ const AddListing = ({ close }) => {
                   onChange={(value) => handleSetAffixName(1, value.value)}
                   options={AFFIX_OPTIONS[equipmentType]}
                 />
-                <Input
-                  type="number"
-                  className="w-28"
-                  label="Min Value"
-                  value={affixes[1].minValue}
-                  setValue={(value) => handleSetAffixMinValue(1, value)}
+                <GaCheckbox
+                  value={affixes[1].isGreaterAffix}
+                  setValue={(value) => handleSetAffixGreaterAffix(1, value)}
                 />
               </div>
               <div className="flex flex-row justify-between gap-5">
@@ -138,12 +133,9 @@ const AddListing = ({ close }) => {
                   onChange={(value) => handleSetAffixName(2, value.value)}
                   options={AFFIX_OPTIONS[equipmentType]}
                 />
-                <Input
-                  type="number"
-                  className="w-28"
-                  label="Min Value"
-                  value={affixes[2].minValue}
-                  setValue={(value) => handleSetAffixMinValue(2, value)}
+                <GaCheckbox
+                  value={affixes[2].isGreaterAffix}
+                  setValue={(value) => handleSetAffixGreaterAffix(2, value)}
                 />
               </div>
 

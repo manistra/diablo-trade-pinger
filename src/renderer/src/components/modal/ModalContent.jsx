@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
 
 const ModalContent = ({ children, title, className, closeModal }) => {
   return (
-    <div className={'border-diablo-dark border w-[850px] rounded-sm ' + className}>
+    <div className={clsx('border-diablo-dark border w-[850px] rounded-sm', className)}>
       <h1 className="relative bg-black-blur text-4xl uppercase font-exo flex items-center px-7 py-3">
         {title}
 

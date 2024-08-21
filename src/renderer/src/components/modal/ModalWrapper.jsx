@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import clsx from 'clsx'
 
 function ModalWrapper({ children, className, closeModal }) {
   const modalRoot = document.getElementById('modal-root')
@@ -11,7 +12,10 @@ function ModalWrapper({ children, className, closeModal }) {
       ></div>
 
       <div
-        className={`absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2 min-w-44${className && ' ' + className}`}
+        className={clsx(
+          'absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2 min-w-44',
+          className
+        )}
       >
         {children}
       </div>

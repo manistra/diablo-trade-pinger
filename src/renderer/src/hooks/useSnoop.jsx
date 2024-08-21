@@ -1,15 +1,12 @@
-import { useContext, useState, useEffect, useRef, useCallback } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import DiabloTradePingerContext from '../context'
-import { snoopForItems } from '../pupeteer'
+import { snoopForItems, browser } from '../pupeteer'
+import { withTimeout } from '../utils/withTimeout'
+const { ipcRenderer } = require('electron')
+
+const IS_PUPETEER_DEV_ENV = import.meta.env.RENDERER_VITE_PUPETEER_DEV?.toString() === 'true'
 
 const useSnoop = () => {
-  const [intervalId, setIntervalId] = useState(null)
-  const [ongoingSnoops, setOngoingSnoops] = useState([])
-  const [timeLeft, setTimeLeft] = useState(null)
-
-  const timeoutRef = useRef(null)
-  const lastExecutionRef = useRef(Date.now())
-
   const {
     executablePath,
     handleAddPings,
@@ -22,12 +19,23 @@ const useSnoop = () => {
     runInterval
   } = useContext(DiabloTradePingerContext)
 
+  const [ongoingSnoops, setOngoingSnoops] = useState([])
+  const [countdown, setCountdown] = useState(runInterval)
+
   const handleAddSnoopId = (id) => {
     setOngoingSnoops((prev) => [...prev, id])
   }
 
   const handleRemoveSnoopId = (id) => {
     setOngoingSnoops((prev) => prev.filter((snoopId) => snoopId !== id))
+  }
+
+  const stopSnooping = () => {
+    setIsSnooping(false)
+  }
+
+  const startSnooping = () => {
+    setIsSnooping(true)
   }
 
   const snoop = async () => {
@@ -38,8 +46,8 @@ const useSnoop = () => {
         executablePath: executablePath,
         handleAddPings: handleAddPings,
         listings: listings,
-        showBrowser: showBrowser,
-        pagesPerRun: pagesPerRun > 6 ? 6 : pagesPerRun,
+        showBrowser: !showBrowser,
+        pagesPerRun: pagesPerRun,
         setCurrentPage: (value) => setCurrentPage(value)
       })
     } finally {
@@ -47,84 +55,43 @@ const useSnoop = () => {
     }
   }
 
-  const getRunInterval = () => {
-    if (!runInterval) return 30000
-
-    let runIntervalToSet = runInterval
-
-    if (Number(runInterval) < 40) runIntervalToSet = 40
-
-    return runIntervalToSet * 1000
-  }
-
-  const startSnooping = async () => {
-    if (!isSnooping) {
-      setIsSnooping(true)
-      await snoop()
-      const id = setInterval(() => {
-        snoop()
-        lastExecutionRef.current = Date.now()
-      }, getRunInterval(runInterval))
-      setIntervalId(id)
-      lastExecutionRef.current = Date.now()
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-
-      timeoutRef.current = setTimeout(
-        updateTimeLeft,
-        getRunInterval(runInterval) - (Date.now() - lastExecutionRef.current)
-      )
-    }
-  }
-
-  const stopSnooping = () => {
-    if (isSnooping) {
-      clearInterval(intervalId)
-      setIntervalId(null)
-      setIsSnooping(false)
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-      setTimeLeft(null)
-    }
-  }
-
-  const updateTimeLeft = useCallback(() => {
-    if (!intervalId) return
-    const timePassed = Date.now() - lastExecutionRef.current
-    const interval = getRunInterval(runInterval)
-    const timeLeftUntilNextExecution = interval - timePassed
-    setTimeLeft(
-      timeLeftUntilNextExecution > 0
-        ? Math.round(timeLeftUntilNextExecution / 1000)
-        : Math.round(interval / 1000)
-    )
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
-
-    timeoutRef.current = setTimeout(updateTimeLeft, 1000)
-  }, [intervalId, runInterval])
-
   useEffect(() => {
-    if (intervalId) {
-      updateTimeLeft()
+    let isCancelled = false
+
+    const runTask = async () => {
+      if (IS_PUPETEER_DEV_ENV) {
+        await snoop()
+        setIsSnooping(false)
+      } else
+        while (isSnooping && !isCancelled) {
+          setCountdown(runInterval)
+          await withTimeout(snoop(), 200000, 'Waiting for snoop() timed out')
+          if (!isCancelled) {
+            for (let i = runInterval; i > 0; i--) {
+              setCountdown(i)
+              await new Promise((resolve) => setTimeout(resolve, 1000)) // Update countdown every second
+            }
+          }
+        }
+    }
+
+    if (isSnooping) {
+      runTask()
     }
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId)
-      }
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
+      isCancelled = true
     }
-  }, [intervalId, updateTimeLeft])
+  }, [isSnooping])
 
-  return { startSnooping, stopSnooping, ongoingSnoops, timeLeft }
+  const handleCleanup = async () => {
+    if (browser) await browser.close()
+    ipcRenderer.send('cleanup-complete')
+  }
+
+  ipcRenderer.on('close-request', handleCleanup)
+
+  return { startSnooping, stopSnooping, ongoingSnoops, countdown }
 }
 
 export default useSnoop

@@ -6,6 +6,8 @@ const { updateElectronApp } = require('update-electron-app')
 
 updateElectronApp()
 
+let isCleanupInFinished = false
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -41,6 +43,32 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // Handle the window close event
+  mainWindow.on('close', (event) => {
+    if (!isCleanupInFinished) {
+      event.preventDefault() // Prevent the window from closing if cleanup is in progress
+
+      mainWindow.webContents.send('close-request') // Notify renderer process to handle cleanup
+
+      // FML This is awful but a safty net for now
+      setTimeout(() => {
+        isCleanupInFinished = true
+        setTimeout(() => {
+          app.quit()
+        }, 2000)
+      }, 5000)
+    } else {
+      // Allow the window to close if cleanup is not in progress
+      app.quit()
+    }
+  })
+
+  ipcMain.on('cleanup-complete', () => {
+    isCleanupInFinished = true
+
+    app.quit() // Quit the app after cleanup is complete
+  })
 
   ipcMain.on('focus-window', () => {
     if (mainWindow) {

@@ -123,3 +123,43 @@ body {
   pointer-events: none;
   border-radius: 4px;
 }
+
+@keyframes burning {
+  0% {
+    box-shadow:
+      0 0 2px #613e16,
+      0 0 4px #613e16,
+      0 0 6px #613e16;
+  }
+  25% {
+    box-shadow:
+      0 0 4px #f28303,
+      0 0 6px #f28303,
+      0 0 8px #f28303;
+  }
+  50% {
+    box-shadow:
+      0 0 6px #613e16,
+      0 0 4px #613e16,
+      0 0 10px #613e16;
+  }
+  75% {
+    box-shadow:
+      0 0 4px #f28303,
+      0 0 6px #f28303,
+      0 0 8px #f28303;
+  }
+  100% {
+    box-shadow:
+      0 0 2px #613e16,
+      0 0 4px #613e16,
+      0 0 6px #613e16;
+  }
+}
+
+.burning {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  animation: burning 10s infinite alternate;
+}

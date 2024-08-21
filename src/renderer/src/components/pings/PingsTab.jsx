@@ -5,11 +5,11 @@ import Ping from './Ping'
 import CTAButton from '../CTAButton'
 
 const PingsTab = () => {
-  const [runCount, setRunCount] = useState(1)
+  const [runCount, setRunCount] = useState(0)
   const [startButtonDisabledTime, setStartButtonDisabledTime] = useState(null)
   const { deleteAllPings, isSnooping, pings, currentPage, runInterval, pagesPerRun, listings } =
     useContext(DiabloTradePingerContext)
-  const { startSnooping, stopSnooping, ongoingSnoops, timeLeft } = useSnoop()
+  const { startSnooping, stopSnooping, ongoingSnoops, countdown } = useSnoop()
 
   const getLoadingBarWidth = () => {
     const width = (Number(currentPage) / Number(pagesPerRun)) * 100
@@ -31,7 +31,7 @@ const PingsTab = () => {
   }
 
   useEffect(() => {
-    if (!isSnooping) return setRunCount(1)
+    if (!isSnooping) return setRunCount(0)
     if (Number(currentPage) === Number(pagesPerRun)) setRunCount(runCount + 1)
   }, [currentPage, pagesPerRun, isSnooping])
 
@@ -44,19 +44,20 @@ const PingsTab = () => {
           <div>
             <div className="flex flex-row gap-3 items-center text-[10px] text-diablo mb-[2px]">
               <p>
-                <span className="text-gray-500">Runs:</span> {runCount}
+                <span className="text-gray-500">Completed Runs:</span> {runCount}
               </p>
 
               <p>
                 <span className="text-gray-500">Listing Page:</span> [{currentPage}/{pagesPerRun}]
               </p>
-
-              {Number(currentPage) === Number(pagesPerRun) && timeLeft && (
-                <p className="flex flex-row items-center text-[10px] justify-center text-diablo">
-                  <span className="text-gray-500">Seconds until next run: </span>
-                  {timeLeft}
-                </p>
-              )}
+              {Number(currentPage) === Number(pagesPerRun) &&
+                countdown &&
+                countdown !== runInterval && (
+                  <p className="flex flex-row items-center text-[10px] justify-center text-diablo">
+                    <span className="text-gray-500">Seconds until next run: </span>
+                    {countdown}
+                  </p>
+                )}
             </div>
             <div className="w-[400px] h-[15px] border border-diablo-dark">
               <div
