@@ -14,7 +14,7 @@ This app provides an easy-to-use, free tool that notifies users when new items m
 
 ## Download
 <p align="center">
-  <a href="https://github.com/manistra/diablo-trade-pinger/releases/download/v1.2.5/Diablo.Trade.Pinger-1.2.5.Setup.exe" style="text-decoration: none;">
+  <a href="https://github.com/manistra/diablo-trade-pinger/releases/download/v1.2.6/Diablo.Trade.Pinger-1.2.6.Setup.exe" style="text-decoration: none;">
     <img src="https://github.com/manistra/diablo-trade-pinger/assets/24444790/3f2c1919-be0f-4cd0-9af7-419de422323f" alt="Download">
   </a>
 </p>
