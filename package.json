@@ -1,7 +1,7 @@
 {
   "name": "diablo-trade-pinger",
   "productName": "Diablo Trade Pinger",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "An Electron application with React",
   "main": "./dist/main/index.js",
   "author": "TocnoSanZna",
